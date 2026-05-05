@@ -8,80 +8,121 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Google Fonts: Geist & Geist Mono -->
+  <!-- Configuração do Design System (Clay.com Vibe) -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            canvas: '#fffaf0',
+            primary: '#0a0a0a',
+            ink: '#0a0a0a',
+            'surface-soft': '#faf5e8',
+            'surface-card': '#f5f0e0',
+            'surface-strong': '#ebe6d6',
+            hairline: '#e5e5e5',
+            'brand-pink': '#ff4d8b',
+            'brand-teal': '#1a3a3a',
+            'brand-lavender': '#b8a4ed',
+            'brand-peach': '#ffb084',
+            'brand-ochre': '#e8b94a',
+            'brand-mint': '#a4d4c5',
+          },
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'sans-serif'],
+            mono: ['Geist Mono', 'monospace'],
+          },
+          borderRadius: {
+            xs: '6px',
+            sm: '8px',
+            md: '12px',
+            lg: '16px',
+            xl: '24px',
+            pill: '9999px',
+          },
+          spacing: {
+            section: '96px',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Inter & Geist Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --font-sans: 'Geist', sans-serif;
-      --font-mono: 'Geist Mono', monospace;
-    }
     body {
-      font-family: var(--font-sans);
-      background-color: #FAFAFA;
-      color: #0F172A;
+      background-color: #fffaf0;
+      color: #0a0a0a;
       -webkit-font-smoothing: antialiased;
     }
-    .font-mono {
-      font-family: var(--font-mono);
+    
+    /* Emulação da tipografia "Plain Black" com Inter e tracking negativo */
+    .font-display {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.04em;
     }
     
-    /* Micro-elevation and Spring Physics (Archetype C) */
-    .card-shadow {
-      box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-    }
     .spring-transition {
-      transition: all 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: all 300ms cubic-bezier(0.25, 1, 0.5, 1);
     }
     
-    /* Custom Scrollbar */
+    /* Custom Scrollbar - Refinado para o tema Clay */
     .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
     .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #e5e5e5; border-radius: 9999px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #d4d4d4; }
     
-    /* Hide scrollbar for tabs but keep functionality */
     .no-scrollbar-visible::-webkit-scrollbar { display: none; }
     .no-scrollbar-visible { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* Hide Number Input Arrows */
+    /* Esconder setas numéricas nativas para um look mais limpo */
     input[type="number"]::-webkit-inner-spin-button,
     input[type="number"]::-webkit-outer-spin-button {
       -webkit-appearance: none;
       margin: 0;
     }
-    input[type="number"] {
-      -moz-appearance: textfield;
+    input[type="number"] { -moz-appearance: textfield; }
+    
+    /* Animação utilitária */
+    @keyframes fadeInUp { 
+      from { opacity: 0; transform: translateY(16px) scale(0.99); } 
+      to { opacity: 1; transform: translateY(0) scale(1); } 
+    }
+    .animate-fade-in-up { 
+      animation: fadeInUp 400ms cubic-bezier(0.25, 1, 0.5, 1) both; 
     }
   </style>
 </head>
-<body class="min-h-[100dvh] flex flex-col">
+<body class="min-h-[100dvh] flex flex-col bg-canvas font-sans text-ink">
 
   <!-- Header Global -->
-  <header class="w-full bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-teal-600"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-        <h1 class="text-lg font-semibold tracking-tight text-slate-900">Academic.OS</h1>
+  <header class="w-full bg-canvas/90 backdrop-blur-md sticky top-0 z-40">
+    <div class="max-w-[1280px] mx-auto px-5 lg:px-8 h-20 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-ink" aria-hidden="true"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+        <h1 class="text-2xl font-display text-ink leading-none mt-1">Academic.OS</h1>
       </div>
-      <button type="button" id="btn-open-subject-modal" class="spring-transition bg-teal-600 hover:brightness-110 active:translate-y-[1px] text-white px-3 sm:px-4 py-2 rounded-lg text-sm font-medium shadow-sm flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+      <button type="button" id="btn-open-subject-modal" class="spring-transition bg-primary hover:bg-primary/90 text-white px-5 h-11 rounded-md text-sm font-semibold flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
         <span class="hidden sm:inline">Nova Disciplina</span>
         <span class="sm:hidden">Nova</span>
       </button>
     </div>
     
     <!-- Navegação de Semestres (Tabs) -->
-    <nav class="w-full bg-slate-50/80 border-t border-slate-100" aria-label="Navegação de Semestres">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-2 overflow-x-auto custom-scrollbar no-scrollbar-visible py-2.5">
+    <nav class="w-full bg-surface-soft border-y border-hairline shadow-[0_1px_2px_rgba(0,0,0,0.02)]" aria-label="Navegação de Semestres">
+      <div class="max-w-[1280px] mx-auto px-5 lg:px-8 flex items-center gap-3 overflow-x-auto custom-scrollbar no-scrollbar-visible py-3">
         <ul id="semesters-list" role="tablist" class="flex items-center gap-2">
           <!-- Abas Injetadas via JS -->
         </ul>
-        <div class="h-5 w-px bg-slate-300 mx-1 flex-shrink-0"></div>
-        <button type="button" id="btn-open-semester-modal" class="text-sm font-medium text-slate-500 hover:text-slate-900 px-3 py-1.5 rounded-md hover:bg-slate-200/50 spring-transition flex-shrink-0 flex items-center gap-1.5">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+        <div class="h-6 w-px bg-hairline mx-2 flex-shrink-0" aria-hidden="true"></div>
+        <button type="button" id="btn-open-semester-modal" class="text-sm font-medium text-ink/60 hover:text-ink hover:bg-surface-strong px-4 py-2 rounded-pill spring-transition flex-shrink-0 flex items-center gap-2 border border-transparent">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
           Novo Semestre
         </button>
       </div>
@@ -89,28 +130,28 @@
   </header>
 
   <!-- Main Content -->
-  <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12">
+  <main class="flex-1 w-full max-w-[1280px] mx-auto px-5 lg:px-8 py-10 md:py-16">
     
     <!-- Cabeçalho do Semestre Ativo -->
-    <header class="mb-6 md:mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
-      <div>
-        <h2 id="current-semester-title" class="text-2xl md:text-3xl font-semibold tracking-tight text-slate-900">Carregando...</h2>
-        <p class="text-slate-500 mt-1 md:mt-2 max-w-[60ch] leading-relaxed text-sm">Acompanhamento de desempenho acadêmico. Adicione as notas nas linhas abaixo ao longo do semestre.</p>
+    <header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div class="max-w-xl">
+        <h2 id="current-semester-title" class="text-4xl md:text-5xl font-display text-ink leading-tight">Carregando...</h2>
+        <p class="text-ink/70 mt-3 leading-relaxed text-[15px] font-medium">Acompanhamento de desempenho acadêmico. Adicione as notas diretamente nos cartões abaixo ao longo do semestre.</p>
       </div>
       
-      <div class="flex flex-row items-center gap-3 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
+      <div class="flex flex-row items-center gap-3 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
         <!-- Controle de Ordenação -->
-        <div id="sort-control" class="hidden flex-row items-center gap-2 bg-white border border-slate-200 rounded-lg px-3 py-2 shadow-sm spring-transition hover:border-slate-300 shrink-0">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg>
-          <select id="select-sort" class="text-sm font-medium text-slate-700 bg-transparent focus:outline-none cursor-pointer pr-2">
+        <div id="sort-control" class="hidden flex-row items-center gap-2 bg-white border border-hairline rounded-md px-3 h-11 spring-transition hover:border-ink/20 shrink-0 shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-ink/50" aria-hidden="true"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg>
+          <select id="select-sort" class="text-sm font-medium text-ink bg-transparent focus:outline-none cursor-pointer pr-2 appearance-none">
             <option value="name-asc">Ordem Alfabética</option>
             <option value="grade-desc">Maior Nota</option>
             <option value="grade-asc">Menor Nota</option>
           </select>
         </div>
 
-        <button type="button" id="btn-delete-semester" class="hidden items-center gap-1.5 px-3 py-2 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg spring-transition shrink-0">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+        <button type="button" id="btn-delete-semester" class="hidden items-center gap-2 px-4 h-11 text-sm font-semibold text-red-600 bg-[#fff5f5] hover:bg-[#ffebeb] rounded-md spring-transition shrink-0 border border-transparent hover:border-red-100">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
           <span class="hidden sm:inline">Excluir Semestre</span>
           <span class="sm:hidden">Excluir</span>
         </button>
@@ -118,53 +159,53 @@
     </header>
 
     <!-- State: Sem Semestres -->
-    <section id="global-empty-state" class="hidden flex-col items-center justify-center py-16 md:py-20 border border-dashed border-slate-300 rounded-2xl bg-slate-50/50">
-      <div class="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center mb-4 text-slate-400">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+    <section id="global-empty-state" class="hidden flex-col items-center justify-center py-24 border border-dashed border-ink/20 rounded-xl bg-surface-soft">
+      <div class="w-16 h-16 rounded-full bg-surface-strong flex items-center justify-center mb-6 text-ink/40 shadow-inner">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
       </div>
-      <h3 class="text-lg font-medium text-slate-900 text-center">Nenhum semestre cadastrado</h3>
-      <p class="text-slate-500 mt-1 text-sm mb-4 text-center px-4">Crie seu primeiro semestre para começar a adicionar notas.</p>
-      <button type="button" id="btn-empty-add-semester" class="bg-teal-600 hover:brightness-110 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm spring-transition">
+      <h3 class="text-3xl font-display text-ink text-center mb-2 tracking-tight">Nenhum semestre cadastrado</h3>
+      <p class="text-ink/60 text-[16px] mb-8 text-center px-4 max-w-md font-medium">Crie seu primeiro semestre para começar a gerenciar suas disciplinas e avaliar seu progresso.</p>
+      <button type="button" id="btn-empty-add-semester" class="bg-primary hover:bg-primary/90 text-white px-8 h-12 rounded-md text-[15px] font-semibold spring-transition shadow-md hover:shadow-lg hover:-translate-y-0.5">
         Criar Semestre
       </button>
     </section>
 
     <!-- State: Empty Disciplinas -->
-    <section id="empty-state" class="hidden flex-col items-center justify-center py-16 md:py-20 border border-dashed border-slate-300 rounded-2xl bg-slate-50/50">
-      <div class="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center mb-4 text-slate-400">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+    <section id="empty-state" class="hidden flex-col items-center justify-center py-24 border border-dashed border-ink/20 rounded-xl bg-surface-soft">
+      <div class="w-16 h-16 rounded-full bg-surface-strong flex items-center justify-center mb-6 text-ink/40 shadow-inner">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
       </div>
-      <h3 class="text-lg font-medium text-slate-900 text-center">Nenhuma disciplina neste semestre</h3>
-      <p class="text-slate-500 mt-1 text-sm text-center px-4">Crie a fórmula da sua primeira disciplina para começar a calcular.</p>
+      <h3 class="text-3xl font-display text-ink text-center mb-2 tracking-tight">Nenhuma disciplina neste semestre</h3>
+      <p class="text-ink/60 text-[16px] text-center px-4 font-medium max-w-md">O seu canvas está em branco. Adicione uma disciplina e configure o método de cálculo do professor.</p>
     </section>
 
-    <!-- State: Row List of Subjects -->
-    <ul id="subjects-grid" role="list" class="flex flex-col gap-4">
-      <!-- Injected via JS -->
+    <!-- Container da Lista de Disciplinas (Onde a mágica acontece) -->
+    <ul id="subjects-grid" role="list" class="flex flex-col gap-6">
+      <!-- Injetado via JS -->
     </ul>
 
   </main>
 
   <!-- Modal: Adicionar Semestre -->
-  <dialog id="modal-semester" class="backdrop:bg-slate-900/40 backdrop:backdrop-blur-sm p-0 rounded-[1.5rem] shadow-2xl border border-slate-200 w-[calc(100%-2rem)] sm:w-full max-w-sm m-auto overflow-hidden spring-transition opacity-0 translate-y-4 open:opacity-100 open:translate-y-0">
-    <div class="bg-white flex flex-col">
-      <header class="px-5 py-4 sm:px-6 sm:py-5 border-b border-slate-100 flex items-center justify-between">
-        <h3 class="text-lg font-semibold text-slate-900">Novo Semestre</h3>
-        <button type="button" id="btn-close-semester-modal" class="text-slate-400 hover:text-slate-600 rounded-md p-1 spring-transition" aria-label="Fechar modal">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+  <dialog id="modal-semester" class="backdrop:bg-ink/40 backdrop:backdrop-blur-sm p-0 rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.1)] border border-hairline w-[calc(100%-2rem)] sm:w-full max-w-sm m-auto overflow-hidden spring-transition opacity-0 translate-y-4 open:opacity-100 open:translate-y-0">
+    <div class="bg-canvas flex flex-col">
+      <header class="px-6 py-5 border-b border-hairline flex items-center justify-between bg-surface-soft">
+        <h3 class="text-xl font-display text-ink">Novo Semestre</h3>
+        <button type="button" id="btn-close-semester-modal" class="text-ink/40 hover:text-ink rounded-sm p-1 spring-transition" aria-label="Fechar modal">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
       </header>
-      <div class="p-5 sm:p-6">
+      <div class="p-6">
         <form id="form-semester" class="space-y-4">
           <div class="space-y-2">
-            <label for="semester-name" class="block text-sm font-medium text-slate-700">Nome do Semestre</label>
-            <input type="text" id="semester-name" required placeholder="Ex: 2025.2 ou 4º Período" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-600/50 focus:border-teal-600 spring-transition text-slate-900">
+            <label for="semester-name" class="block text-[13px] font-bold uppercase tracking-wider text-ink/70">Nome do Semestre</label>
+            <input type="text" id="semester-name" required placeholder="Ex: 2025.2 ou 4º Período" class="w-full px-4 h-12 bg-white border border-hairline rounded-md focus:outline-none focus:border-ink/50 focus:ring-4 focus:ring-ink/5 spring-transition text-ink font-medium shadow-sm">
           </div>
         </form>
       </div>
-      <footer class="px-5 py-4 sm:px-6 border-t border-slate-100 bg-slate-50 flex items-center justify-end gap-3">
-        <button type="button" id="btn-cancel-semester" class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 spring-transition rounded-lg">Cancelar</button>
-        <button type="submit" form="form-semester" class="bg-teal-600 hover:brightness-110 active:translate-y-[1px] text-white px-5 py-2 rounded-lg text-sm font-medium shadow-sm spring-transition">
+      <footer class="px-6 py-5 border-t border-hairline bg-surface-soft flex items-center justify-end gap-3">
+        <button type="button" id="btn-cancel-semester" class="px-5 h-11 text-sm font-semibold text-ink bg-white border border-hairline hover:bg-surface-card spring-transition rounded-md shadow-sm">Cancelar</button>
+        <button type="submit" form="form-semester" class="bg-primary hover:bg-primary/90 text-white px-6 h-11 rounded-md text-sm font-semibold spring-transition shadow-sm">
           Salvar
         </button>
       </footer>
@@ -172,87 +213,90 @@
   </dialog>
 
   <!-- Modal: Adicionar Disciplina & Gerador de Fórmula -->
-  <dialog id="modal-subject" class="backdrop:bg-slate-900/40 backdrop:backdrop-blur-sm p-0 rounded-[1.5rem] shadow-2xl border border-slate-200 w-[calc(100%-2rem)] sm:w-full max-w-xl m-auto overflow-hidden spring-transition opacity-0 translate-y-4 open:opacity-100 open:translate-y-0">
-    <div class="bg-white flex flex-col max-h-[85vh] sm:max-h-[90vh]">
-      <header class="px-5 py-4 sm:px-6 sm:py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-        <h3 class="text-lg font-semibold text-slate-900">Montar Fórmula</h3>
-        <button type="button" id="btn-close-subject-modal" class="text-slate-400 hover:text-slate-600 rounded-md p-1 spring-transition" aria-label="Fechar modal">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+  <dialog id="modal-subject" class="backdrop:bg-ink/40 backdrop:backdrop-blur-sm p-0 rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.1)] border border-hairline w-[calc(100%-2rem)] sm:w-full max-w-2xl m-auto overflow-hidden spring-transition opacity-0 translate-y-4 open:opacity-100 open:translate-y-0">
+    <div class="bg-canvas flex flex-col max-h-[85vh] sm:max-h-[90vh]">
+      <header class="px-6 py-5 border-b border-hairline flex items-center justify-between bg-surface-soft">
+        <h3 class="text-2xl font-display text-ink tracking-tight">Montar Fórmula</h3>
+        <button type="button" id="btn-close-subject-modal" class="text-ink/40 hover:text-ink rounded-sm p-1 spring-transition" aria-label="Fechar modal">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
       </header>
 
-      <div class="p-5 sm:p-6 overflow-y-auto flex-1 custom-scrollbar">
-        <form id="form-subject" class="space-y-6 sm:space-y-8">
+      <div class="p-6 overflow-y-auto flex-1 custom-scrollbar">
+        <form id="form-subject" class="space-y-8">
           
-          <!-- Seção 1: Nome -->
           <div class="space-y-2">
-            <label for="subject-name" class="block text-sm font-medium text-slate-700">Nome da Disciplina</label>
-            <input type="text" id="subject-name" name="name" required placeholder="Ex: Anatomia Aplicada" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-600/50 focus:border-teal-600 spring-transition text-slate-900 shadow-sm">
+            <label for="subject-name" class="block text-[13px] font-bold uppercase tracking-wider text-ink/70">Nome da Disciplina</label>
+            <input type="text" id="subject-name" name="name" required placeholder="Ex: Anatomia Aplicada" class="w-full px-4 h-12 bg-white border border-hairline rounded-md focus:outline-none focus:border-ink/50 focus:ring-4 focus:ring-ink/5 spring-transition text-ink font-medium shadow-sm">
           </div>
 
-          <!-- Seção 1.5: Tipo de Cálculo -->
           <div class="space-y-2">
-            <label for="subject-calc-type" class="block text-sm font-medium text-slate-700">Como o professor calcula a média?</label>
-            <select id="subject-calc-type" required class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-600/50 focus:border-teal-600 spring-transition text-slate-900 shadow-sm text-sm sm:text-base">
-              <option value="ponderada">Média Ponderada (Nota × Peso específico)</option>
-              <option value="media_categorias">Soma das Médias (Média de Provas + Trabalhos)</option>
-              <option value="soma">Soma Simples (Apenas soma os pontos)</option>
-              <option value="media">Média Aritmética Geral (Soma tudo ÷ Qtd)</option>
-              <option value="custom">Fórmula Personalizada (Crie a sua equação)</option>
-            </select>
+            <label for="subject-calc-type" class="block text-[13px] font-bold uppercase tracking-wider text-ink/70">Método de Cálculo</label>
+            <div class="relative">
+              <select id="subject-calc-type" required class="w-full px-4 h-12 bg-white border border-hairline rounded-md focus:outline-none focus:border-ink/50 focus:ring-4 focus:ring-ink/5 spring-transition text-ink font-semibold text-[15px] appearance-none shadow-sm cursor-pointer pr-10">
+                <option value="ponderada">Média Ponderada (Nota × Peso ou Soma Direta)</option>
+                <option value="media_categorias">Soma das Médias (Ex: Média de Provas + Média de Trabalhos)</option>
+                <option value="soma">Soma Simples (Apenas soma os pontos corridos)</option>
+                <option value="media">Média Aritmética Geral (Soma tudo ÷ Quantidade)</option>
+                <option value="custom">Fórmula Personalizada (Crie uma equação livre)</option>
+              </select>
+              <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-ink/40">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+              </div>
+            </div>
           </div>
 
-          <!-- Seção 1.75: Fórmula Customizada -->
-          <div id="custom-formula-section" class="hidden space-y-2 bg-slate-100 p-4 rounded-xl border border-slate-200">
-            <label for="subject-custom-formula" class="block text-sm font-medium text-slate-800">Fórmula Matemática</label>
-            <input type="text" id="subject-custom-formula" placeholder="Ex: (P1 + P2) / 2 + T1 * T1_P" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-600/50 focus:border-teal-600 spring-transition text-slate-900 shadow-sm font-mono text-sm">
-            <p class="text-xs text-slate-500 leading-relaxed mt-2">Escreva a conta usando os <strong>nomes exatos</strong> das avaliações. Para usar a nota, digite o nome (Ex: <code>P1</code>). Para usar o <strong>peso</strong> correspondente, adicione <strong>_P</strong> (Ex: <code>P1_P</code>). Aceita <code class="bg-white px-1 py-0.5 rounded border border-slate-200 shadow-sm">+ - * / ( )</code></p>
+          <!-- Secão Fórmula Personalizada -->
+          <div id="custom-formula-section" class="hidden space-y-3 bg-surface-soft p-5 rounded-lg border border-hairline">
+            <label for="subject-custom-formula" class="block text-[13px] font-bold uppercase tracking-wider text-ink">Fórmula Matemática</label>
+            <input type="text" id="subject-custom-formula" placeholder="Ex: (P1 + P2) / 2 + T1 * T1_P" class="w-full px-4 h-12 bg-white border border-hairline rounded-md focus:outline-none focus:border-ink/50 focus:ring-4 focus:ring-ink/5 spring-transition text-ink font-mono text-sm shadow-sm placeholder:text-ink/30">
+            <p class="text-[13px] text-ink/70 leading-relaxed font-medium">Use os <strong>nomes exatos</strong>. Nota: <code class="bg-white px-1.5 py-0.5 rounded border border-hairline font-mono text-ink text-[12px] font-semibold">P1</code>. Peso: <code class="bg-white px-1.5 py-0.5 rounded border border-hairline font-mono text-ink text-[12px] font-semibold">P1_P</code>. Aceita <code class="bg-white px-1.5 py-0.5 rounded border border-hairline font-mono text-ink text-[12px] font-semibold">+ - * / ( )</code></p>
           </div>
 
-          <!-- Seção 2: Gerador -->
-          <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-4">
-            <h4 class="text-sm font-medium text-slate-900 flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-teal-600"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
+          <!-- Assistente Gerador -->
+          <div class="bg-surface-card rounded-lg p-5 border border-hairline space-y-5">
+            <h4 class="text-[15px] font-bold text-ink flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-ink/60" aria-hidden="true"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
               Assistente de Avaliações
             </h4>
             
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div>
-                <label class="block text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Provas</label>
-                <input type="number" id="gen-provas" min="0" value="2" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-teal-600/50 shadow-sm text-center font-mono">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-ink/50 mb-1.5">Provas</label>
+                <input type="number" id="gen-provas" min="0" value="2" class="w-full px-3 h-10 bg-white border border-hairline rounded-md focus:outline-none focus:border-ink/50 text-center font-mono font-semibold text-ink shadow-sm">
               </div>
               <div>
-                <label class="block text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Trabalhos</label>
-                <input type="number" id="gen-trabalhos" min="0" value="1" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-teal-600/50 shadow-sm text-center font-mono">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-ink/50 mb-1.5">Trabalhos</label>
+                <input type="number" id="gen-trabalhos" min="0" value="1" class="w-full px-3 h-10 bg-white border border-hairline rounded-md focus:outline-none focus:border-ink/50 text-center font-mono font-semibold text-ink shadow-sm">
               </div>
               <div>
-                <label class="block text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Seminários</label>
-                <input type="number" id="gen-seminarios" min="0" value="0" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-teal-600/50 shadow-sm text-center font-mono">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-ink/50 mb-1.5">Seminários</label>
+                <input type="number" id="gen-seminarios" min="0" value="0" class="w-full px-3 h-10 bg-white border border-hairline rounded-md focus:outline-none focus:border-ink/50 text-center font-mono font-semibold text-ink shadow-sm">
               </div>
               <div>
-                <label class="block text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Atividades</label>
-                <input type="number" id="gen-atividades" min="0" value="0" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-teal-600/50 shadow-sm text-center font-mono">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-ink/50 mb-1.5">Atividades</label>
+                <input type="number" id="gen-atividades" min="0" value="0" class="w-full px-3 h-10 bg-white border border-hairline rounded-md focus:outline-none focus:border-ink/50 text-center font-mono font-semibold text-ink shadow-sm">
               </div>
             </div>
-            <button type="button" id="btn-generate-rows" class="w-full bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 px-4 py-2 rounded-lg text-sm font-medium shadow-sm spring-transition">
-              Gerar Campos
+            <button type="button" id="btn-generate-rows" class="w-full bg-white border border-hairline text-ink hover:bg-surface-soft h-11 rounded-md text-[14px] font-semibold spring-transition shadow-sm">
+              Gerar Campos Abaixo
             </button>
           </div>
 
-          <!-- Seção 3: Tabela Dinâmica -->
-          <div class="space-y-3">
+          <!-- Tabela de Avaliações -->
+          <div class="space-y-4">
             <div class="flex items-center justify-between">
-              <label id="lbl-formula-final" class="block text-sm font-medium text-slate-700">Avaliações (Opcional: Defina os Pesos)</label>
+              <label id="lbl-formula-final" class="block text-[13px] font-bold uppercase tracking-wider text-ink/70">Campos da Disciplina (Pesos Opcionais)</label>
             </div>
             
-            <div class="bg-white border border-slate-200 rounded-xl p-2 overflow-hidden">
-              <div id="assessments-container" class="space-y-2 max-h-[300px] overflow-y-auto custom-scrollbar p-1">
+            <div class="bg-surface-soft border border-hairline rounded-lg p-3">
+              <div id="assessments-container" class="space-y-2 max-h-[280px] overflow-y-auto custom-scrollbar pr-1">
                 <!-- Linhas injetadas via JS -->
               </div>
               
-              <div class="pt-3 pb-1 px-1 mt-2 border-t border-slate-100">
-                <button type="button" id="btn-add-assessment" class="text-sm text-teal-600 hover:text-teal-700 font-medium flex items-center gap-1.5 spring-transition">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+              <div class="pt-3">
+                <button type="button" id="btn-add-assessment" class="h-10 px-4 w-full border border-dashed border-ink/20 text-[13px] text-ink/60 hover:text-ink hover:border-ink/40 font-semibold flex justify-center items-center gap-2 rounded-md spring-transition bg-white/50 hover:bg-white transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
                   Adicionar linha manual
                 </button>
               </div>
@@ -261,106 +305,69 @@
         </form>
       </div>
 
-      <footer class="px-5 py-4 sm:px-6 border-t border-slate-100 bg-slate-50 flex items-center justify-end gap-3">
-        <button type="button" id="btn-cancel-subject" class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 spring-transition rounded-lg">Cancelar</button>
-        <button type="submit" form="form-subject" class="bg-teal-600 hover:brightness-110 active:translate-y-[1px] text-white px-5 py-2 rounded-lg text-sm font-medium shadow-sm spring-transition">
+      <footer class="px-6 py-5 border-t border-hairline bg-surface-soft flex items-center justify-end gap-3">
+        <button type="button" id="btn-cancel-subject" class="px-5 h-11 text-sm font-semibold text-ink bg-white border border-hairline hover:bg-surface-card spring-transition rounded-md shadow-sm">Cancelar</button>
+        <button type="submit" form="form-subject" class="bg-primary hover:bg-primary/90 text-white px-6 h-11 rounded-md text-sm font-semibold spring-transition shadow-sm">
           Salvar Estrutura
         </button>
       </footer>
     </div>
   </dialog>
 
-  <!-- Templates -->
+  <!-- Template Oculto: Aba de Semestre -->
   <template id="tpl-semester-tab">
     <li role="presentation" class="flex-shrink-0">
-      <button role="tab" aria-selected="false" class="semester-tab-btn px-4 py-1.5 rounded-full text-sm font-medium spring-transition border border-transparent flex items-center gap-2">
+      <button role="tab" aria-selected="false" class="semester-tab-btn px-5 h-10 rounded-pill text-[14px] font-semibold spring-transition border border-transparent flex items-center gap-2 hover:shadow-sm">
         <span class="tab-name"></span>
       </button>
     </li>
   </template>
 
-  <!-- Layout de Linha Única Responsivo -->
-  <template id="tpl-subject-row">
-    <li>
-      <article class="bg-white rounded-xl p-4 md:p-5 border border-slate-200 card-shadow flex flex-col md:flex-row gap-4 md:gap-5 hover:border-slate-300 spring-transition group relative items-start md:items-stretch overflow-hidden">
-        
-        <!-- Col 1: Title & Badge -->
-        <div class="flex flex-col w-full md:w-56 shrink-0 relative justify-center">
-            <!-- Botão de deletar Mobile -->
-            <button type="button" class="md:hidden absolute top-0 right-0 btn-delete text-slate-300 hover:text-red-500 spring-transition p-1" aria-label="Remover">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-            </button>
-            <h3 class="text-base font-semibold text-slate-900 leading-tight subject-title pr-8 md:pr-0 line-clamp-2"></h3>
-            <span class="text-[9px] font-bold tracking-wider uppercase text-teal-700 mt-1.5 subject-type-badge bg-teal-50/80 self-start px-2 py-0.5 rounded border border-teal-100/50"></span>
-        </div>
-
-        <!-- Col 2: Assessments (Scroll Horizontal Magnético) -->
-        <div class="flex-1 w-full overflow-x-auto custom-scrollbar pb-3 md:pb-0 -mx-4 px-4 md:mx-0 md:px-0 snap-x snap-mandatory">
-            <ul class="subject-assessments flex flex-nowrap gap-3 w-max pr-4 md:pr-0">
-                <!-- Assessment Items Injected Here -->
-            </ul>
-        </div>
-
-        <!-- Col 3: Totals & Actions -->
-        <div class="flex flex-row md:flex-col items-center justify-between md:justify-center w-full md:w-32 border-t md:border-t-0 md:border-l border-slate-100 pt-4 md:pt-0 md:pl-5 shrink-0 relative">
-            <!-- Botão de deletar Desktop -->
-            <button type="button" class="hidden md:block absolute top-0 right-0 btn-delete text-slate-300 hover:text-red-500 spring-transition p-1 -mt-2 -mr-2 opacity-0 group-hover:opacity-100 focus:opacity-100" aria-label="Remover">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-            </button>
-            
-            <div class="flex flex-col items-start md:items-end w-full">
-                <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider mb-0.5">Média Final</span>
-                <span class="text-2xl font-semibold font-mono tracking-tight subject-average text-slate-900">0.00</span>
-            </div>
-            <div class="px-2 py-1 rounded border text-[10px] font-bold tracking-wide uppercase subject-status bg-slate-50 border-slate-200 text-slate-600 mt-0 md:mt-2 text-center min-w-[70px]">
-                Pendente
-            </div>
-        </div>
-      </article>
-    </li>
-  </template>
-
-  <!-- Row para criação de estrutura no Modal (Responsivo) -->
+  <!-- Template Oculto: Nova Linha de Avaliação (Para o Modal) -->
   <template id="tpl-assessment-row">
-    <div class="flex items-center gap-2 group/row bg-slate-50 p-1.5 sm:p-2 rounded-lg border border-transparent hover:border-slate-200 spring-transition">
-      <input type="text" placeholder="Ex: Prova 1" required class="assessment-name flex-1 min-w-[80px] sm:min-w-[100px] px-2 sm:px-3 py-1.5 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-teal-600/50 shadow-sm">
+    <div class="flex items-center gap-2 sm:gap-3 group/row bg-white p-2 rounded-md border border-hairline hover:border-ink/30 spring-transition shadow-sm">
+      <input type="text" placeholder="Ex: Prova 1" required class="assessment-name flex-1 min-w-[80px] sm:min-w-[120px] px-3 h-10 bg-surface-soft border border-transparent rounded-sm text-[14px] focus:outline-none focus:bg-white focus:border-ink/40 font-semibold text-ink transition-colors">
       
-      <!-- Container do Peso -->
-      <div class="relative w-20 sm:w-28 weight-wrapper shrink-0">
-        <span class="hidden sm:flex absolute inset-y-0 left-0 pl-2.5 items-center pointer-events-none text-xs font-medium text-slate-400">Peso:</span>
-        <span class="sm:hidden absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none text-xs font-medium text-slate-400">P:</span>
-        <input type="number" step="0.001" placeholder="1.0" class="assessment-weight w-full pl-6 sm:pl-11 pr-2 sm:pr-3 py-1.5 bg-white border border-slate-200 rounded-md text-sm font-mono focus:outline-none focus:ring-2 focus:ring-teal-600/50 shadow-sm">
+      <!-- Container Peso (Para Ponderada/Custom) -->
+      <div class="relative w-24 sm:w-32 weight-wrapper shrink-0">
+        <span class="hidden sm:flex absolute inset-y-0 left-0 pl-3 items-center pointer-events-none text-[11px] font-bold text-ink/40 uppercase" aria-hidden="true">Peso:</span>
+        <span class="sm:hidden absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-[11px] font-bold text-ink/40 uppercase" aria-hidden="true">P:</span>
+        <input type="number" step="0.001" placeholder="1.0" class="assessment-weight w-full pl-7 sm:pl-14 pr-2 sm:pr-3 h-10 bg-surface-soft border border-transparent rounded-sm text-[14px] font-mono font-medium focus:outline-none focus:bg-white focus:border-ink/40 text-ink transition-colors">
       </div>
       
-      <!-- Container da Categoria -->
-      <div class="relative w-24 sm:w-28 category-wrapper hidden shrink-0">
-        <select required class="assessment-category w-full px-1 sm:px-2 py-1.5 bg-white border border-slate-200 rounded-md text-xs focus:outline-none focus:ring-2 focus:ring-teal-600/50 shadow-sm text-slate-700">
+      <!-- Container Categoria (Para Soma de Médias) -->
+      <div class="relative w-28 sm:w-36 category-wrapper hidden shrink-0">
+        <select required class="assessment-category w-full px-3 h-10 bg-surface-soft border border-transparent rounded-sm text-[13px] font-bold focus:outline-none focus:bg-white focus:border-ink/40 text-ink transition-colors appearance-none">
           <option value="prova">Prova</option>
-          <option value="trabalho">Trab.</option>
-          <option value="seminario">Semin.</option>
-          <option value="atividade">Ativ.</option>
-          <option value="extra">Extra</option>
+          <option value="trabalho">Trabalho</option>
+          <option value="seminario">Seminário</option>
+          <option value="atividade">Atividade</option>
+          <option value="extra">Nota Extra</option>
         </select>
+        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none text-ink/40">
+           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
       </div>
 
-      <button type="button" class="btn-remove-row text-slate-300 hover:text-red-500 p-1.5 spring-transition bg-white border border-slate-200 rounded-md shadow-sm shrink-0" aria-label="Remover linha">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      <button type="button" class="btn-remove-row text-ink/30 hover:text-red-500 hover:bg-red-50 w-10 h-10 flex items-center justify-center spring-transition bg-transparent rounded-sm shrink-0" aria-label="Remover linha">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       </button>
     </div>
   </template>
 
-  <!-- Core Application Logic -->
+  <!-- Core Application Logic (Refatorado para Delegar Eventos e Gerar UI Via Strings) -->
   <script type="module">
-    // --- 1. STATE MANAGEMENT ---
+    // 1. DADOS INICIAIS E ESTADO
     const initialSemesters = [];
-
+    
+    // O Objeto state é a fonte única da verdade.
     let state = {
       semesters: [...initialSemesters],
       activeSemesterId: null,
-      sortMode: 'name-asc'
+      sortMode: 'name-asc' // 'name-asc', 'grade-desc', 'grade-asc'
     };
 
-    // --- 2. DOM ELEMENTS ---
+    // 2. REFERÊNCIAS DO DOM (Estáticas)
     const dom = {
       grid: document.getElementById('subjects-grid'),
       emptyState: document.getElementById('empty-state'),
@@ -402,86 +409,217 @@
     };
 
     const templates = {
-      row: document.getElementById('tpl-subject-row'), 
       assessmentRow: document.getElementById('tpl-assessment-row'),
       tab: document.getElementById('tpl-semester-tab')
     };
 
-    // --- 3. BUSINESS LOGIC ---
-    function calculateAverage(subject) {
-      const assessments = subject.assessments;
-      if (!assessments || assessments.length === 0) return 0;
-      let sum = 0;
+    // 3. DESIGN SYSTEM (Clay Palette Map)
+    // Cores saturadas para as disciplinas - Estilo Clay B2B
+    const THEMES = [
+      { bg: 'bg-brand-pink', text: 'text-white', badge: 'bg-white/20 border-white/20', innerBox: 'bg-white/10 border-white/20', inputBg: 'bg-white/10 text-white border-transparent focus:bg-white focus:text-ink', borderSplit: 'border-white/20', accent: 'bg-white/20 text-white border-white/10' },
+      { bg: 'bg-brand-teal', text: 'text-white', badge: 'bg-white/10 border-white/10', innerBox: 'bg-white/5 border-white/10', inputBg: 'bg-white/10 text-white border-transparent focus:bg-white focus:text-ink', borderSplit: 'border-white/10', accent: 'bg-white/10 text-white border-white/5' },
+      { bg: 'bg-brand-lavender', text: 'text-ink', badge: 'bg-white/60 border-white/50', innerBox: 'bg-white/50 border-white/50', inputBg: 'bg-white/70 text-ink border-transparent focus:bg-white focus:border-ink/20', borderSplit: 'border-ink/10', accent: 'bg-white/60 text-ink border-white/40' },
+      { bg: 'bg-brand-peach', text: 'text-ink', badge: 'bg-white/60 border-white/50', innerBox: 'bg-white/50 border-white/50', inputBg: 'bg-white/70 text-ink border-transparent focus:bg-white focus:border-ink/20', borderSplit: 'border-ink/10', accent: 'bg-white/60 text-ink border-white/40' },
+      { bg: 'bg-brand-ochre', text: 'text-ink', badge: 'bg-white/60 border-white/50', innerBox: 'bg-white/50 border-white/50', inputBg: 'bg-white/70 text-ink border-transparent focus:bg-white focus:border-ink/20', borderSplit: 'border-ink/10', accent: 'bg-white/60 text-ink border-white/40' },
+      { bg: 'bg-surface-card', text: 'text-ink', badge: 'bg-white border-hairline', innerBox: 'bg-white border-hairline', inputBg: 'bg-surface-soft text-ink border-hairline focus:bg-white focus:border-ink/30', borderSplit: 'border-hairline', accent: 'bg-surface-soft text-ink border-hairline' },
+    ];
+
+    // Mapeamento dos Labels dos Métodos
+    const METHOD_LABELS = {
+      'ponderada': 'PONDERADA',
+      'soma': 'SOMA SIMPLES',
+      'media': 'MÉDIA ARITMÉTICA',
+      'media_categorias': 'SOMA DAS MÉDIAS',
+      'custom': 'FÓRMULA CUSTOM'
+    };
+
+    // 4. MOTORES DE CÁLCULO E LÓGICA DE NEGÓCIO
+    const Calculator = {
+      compute(subject) {
+        const assessments = subject.assessments || [];
+        if (assessments.length === 0) return 0;
+        
+        let sum = 0;
+        
+        switch (subject.calcType) {
+          case 'soma':
+            sum = assessments.reduce((acc, a) => acc + (a.grade || 0), 0);
+            return sum;
+            
+          case 'media':
+            sum = assessments.reduce((acc, a) => acc + (a.grade || 0), 0);
+            return sum / assessments.length;
+            
+          case 'media_categorias':
+            const categories = {};
+            assessments.forEach(a => {
+              const cat = a.category || 'extra';
+              if (!categories[cat]) categories[cat] = { sum: 0, count: 0 };
+              categories[cat].sum += (a.grade || 0);
+              categories[cat].count += 1; 
+            });
+            let total = 0;
+            for (const cat in categories) {
+              if (categories[cat].count > 0) {
+                total += (categories[cat].sum / categories[cat].count);
+              }
+            }
+            return total;
+            
+          case 'custom':
+            let formula = subject.customFormula || "0";
+            formula = formula.replace(/,/g, '.'); 
+            // Substituição segura por variáveis (do maior para o menor nome)
+            const sorted = [...assessments].sort((a, b) => b.name.length - a.name.length);
+            sorted.forEach(a => {
+              const val = (a.grade !== null && a.grade !== undefined && a.grade !== "") ? a.grade : 0;
+              const w = (a.weight !== null && a.weight !== undefined) ? a.weight : 1;
+              formula = formula.split(a.name + '_P').join(w);
+              formula = formula.split(a.name).join(val);
+            });
+            try {
+              // Limpa qualquer injeção maliciosa, permitindo apenas matemática básica
+              const sanitized = formula.replace(/[^0-9+\-*/().\s]/g, '');
+              const result = new Function('return ' + sanitized)();
+              return isNaN(result) || !isFinite(result) ? 0 : result;
+            } catch (e) {
+              return 0; 
+            }
+            
+          case 'ponderada':
+          default:
+             sum = assessments.reduce((acc, a) => {
+               const w = (a.weight !== null && a.weight !== undefined) ? a.weight : 1;
+               return acc + ((a.grade || 0) * w);
+             }, 0);
+             return sum;
+        }
+      },
+
+      getStatus(average, isFullyGraded, isDarkTheme) {
+        const baseClass = isDarkTheme ? "bg-white/20 border-white/20 text-white" : "bg-white border-hairline text-ink";
+        
+        if (average >= 6.0) return { label: 'APROVADO', classes: baseClass };
+        if (average >= 4.0 && isFullyGraded) return { label: 'FINAL', classes: baseClass };
+        if (average < 4.0 && isFullyGraded) return { label: 'REPROVADO', classes: isDarkTheme ? 'bg-red-500/80 text-white border-red-500/50' : 'bg-red-100 text-red-700 border-red-200' };
+        
+        return { label: 'CURSANDO', classes: baseClass };
+      },
       
-      if (subject.calcType === 'soma') {
-        assessments.forEach(a => { sum += (a.grade || 0); });
-        return sum;
-      } 
-      else if (subject.calcType === 'media') {
-        assessments.forEach(a => { sum += (a.grade || 0); });
-        return sum / assessments.length;
-      } 
-      else if (subject.calcType === 'media_categorias') {
-        const categories = {};
-        assessments.forEach(a => {
-          const cat = a.category || 'extra';
-          if (!categories[cat]) categories[cat] = { sum: 0, count: 0 };
-          categories[cat].sum += (a.grade || 0);
-          categories[cat].count += 1; 
-        });
-        
-        let totalSomaMedias = 0;
-        for (const cat in categories) {
-          if (categories[cat].count > 0) {
-            totalSomaMedias += (categories[cat].sum / categories[cat].count);
-          }
-        }
-        return totalSomaMedias;
-      }
-      else if (subject.calcType === 'custom') {
-        let formulaStr = subject.customFormula || "0";
-        formulaStr = formulaStr.replace(/,/g, '.'); 
-        
-        const sorted = [...assessments].sort((a, b) => b.name.length - a.name.length);
-        sorted.forEach(a => {
-          const val = (a.grade !== null && a.grade !== undefined && a.grade !== "") ? a.grade : 0;
-          const w = (a.weight !== null && a.weight !== undefined) ? a.weight : 1;
-          
-          formulaStr = formulaStr.split(a.name + '_P').join(w);
-          formulaStr = formulaStr.split(a.name).join(val);
-        });
-
-        try {
-          const sanitized = formulaStr.replace(/[^0-9+\-*/().\s]/g, '');
-          const result = new Function('return ' + sanitized)();
-          return isNaN(result) || !isFinite(result) ? 0 : result;
-        } catch (e) {
-          return 0; 
+      calculateItemValue(ass, calcType) {
+        const grade = (ass.grade !== null && ass.grade !== undefined && ass.grade !== "") ? parseFloat(ass.grade) : 0;
+        if (calcType === 'soma' || calcType === 'media' || calcType === 'media_categorias') {
+            return grade;
+        } else {
+            const w = (ass.weight !== null && ass.weight !== undefined) ? parseFloat(ass.weight) : 1;
+            return grade * w;
         }
       }
-      else {
-        // Ponderada padrão
-        assessments.forEach(a => { 
-          const w = (a.weight !== null && a.weight !== undefined) ? a.weight : 1;
-          sum += ((a.grade || 0) * w); 
-        });
-        return sum;
+    };
+
+    // 5. MOTORES DE RENDERIZAÇÃO (UI Components via JS)
+    
+    // Função utilitária para renderizar um "mini-card" de avaliação dentro da disciplina
+    function renderAssessmentItem(ass, index, subjectId, calcType, theme) {
+      let mathContextHTML = '';
+      
+      // Define a dica visual matemática do card
+      if (calcType === 'soma') {
+        mathContextHTML = `SOMA`;
+      } else if (calcType === 'media') {
+        mathContextHTML = `MÉDIA`;
+      } else if (calcType === 'media_categorias') {
+        const catName = ass.category ? ass.category.substring(0,3).toUpperCase() : 'GER';
+        mathContextHTML = `GRP: <span class="font-bold ml-1">${catName}</span>`;
+      } else {
+        const wVal = (ass.weight !== null && ass.weight !== undefined) ? ass.weight : "";
+        mathContextHTML = `
+          <label for="w-${subjectId}-${index}" class="sr-only">Peso para ${ass.name}</label>
+          P: <input type="number" id="w-${subjectId}-${index}" data-subject-id="${subjectId}" data-index="${index}" data-type="weight" step="0.01" placeholder="1" class="w-10 h-6 ml-1.5 px-1 text-[10px] font-mono font-medium text-center rounded-sm outline-none transition-colors border ${theme.inputBg}" value="${wVal}">
+        `;
       }
+
+      const itemVal = Calculator.calculateItemValue(ass, calcType).toFixed(2);
+      const gradeVal = (ass.grade !== null && ass.grade !== undefined) ? ass.grade : "";
+
+      return `
+        <li class="snap-start flex flex-col gap-3 p-4 rounded-xl min-w-[150px] md:min-w-[160px] shrink-0 spring-transition border ${theme.innerBox} hover:-translate-y-0.5 shadow-sm">
+          <div class="flex justify-between items-start gap-2 w-full">
+            <span class="text-[14px] font-bold leading-tight truncate w-full" title="${ass.name}">${ass.name}</span>
+            <span id="res-${subjectId}-${index}" class="font-mono text-[11px] font-bold px-1.5 py-0.5 rounded-sm border shrink-0 ${theme.accent}">${itemVal}</span>
+          </div>
+          <div class="flex items-center justify-between gap-3 w-full mt-auto pt-2">
+            <label for="g-${subjectId}-${index}" class="sr-only">Nota para ${ass.name}</label>
+            <input type="number" id="g-${subjectId}-${index}" data-subject-id="${subjectId}" data-index="${index}" data-type="grade" step="0.01" min="0" max="10" placeholder="--" class="w-14 h-8 px-1.5 text-xs font-mono font-bold text-center rounded-sm outline-none shadow-sm spring-transition border ${theme.inputBg}" value="${gradeVal}">
+            <span class="font-mono text-[10px] font-medium uppercase tracking-wider flex items-center justify-end w-full opacity-80">
+              ${mathContextHTML}
+            </span>
+          </div>
+        </li>
+      `;
     }
 
-    function getStatusInfo(average, isFullyGraded = false) {
-      if (average >= 6.0) return { label: 'Aprovado', classes: 'bg-emerald-50 text-emerald-700 border-emerald-200' };
-      if (average >= 4.0 && isFullyGraded) return { label: 'Final', classes: 'bg-amber-50 text-amber-700 border-amber-200' };
-      if (average < 4.0 && isFullyGraded) return { label: 'Reprovado', classes: 'bg-red-50 text-red-700 border-red-200' };
-      return { label: 'Cursando', classes: 'bg-slate-50 text-slate-600 border-slate-200' };
+    // Função que renderiza uma linha completa de disciplina
+    function renderSubjectRow(subject, index) {
+      const theme = THEMES[index % THEMES.length];
+      const isDark = theme.bg === 'bg-brand-teal' || theme.bg === 'bg-brand-pink';
+      
+      const badgeText = METHOD_LABELS[subject.calcType] || METHOD_LABELS['ponderada'];
+      
+      const avg = Calculator.compute(subject);
+      const isFullyGraded = subject.assessments.every(a => a.grade !== null && a.grade !== undefined && a.grade !== "");
+      const status = Calculator.getStatus(avg, isFullyGraded, isDark);
+
+      // Renderiza as mini-cards de avaliações (Garante o scroll magnético)
+      const assessmentsHTML = subject.assessments.map((ass, i) => 
+        renderAssessmentItem(ass, i, subject.id, subject.calcType, theme)
+      ).join('');
+
+      return `
+        <li class="animate-fade-in-up" style="animation-delay: ${index * 60}ms">
+          <article class="rounded-[20px] p-6 md:p-8 flex flex-col lg:flex-row gap-6 spring-transition group relative items-start lg:items-stretch overflow-hidden shadow-sm hover:shadow-md ${theme.bg} ${theme.text}">
+            
+            <!-- Delete Mobile -->
+            <button type="button" data-action="delete" data-subject-id="${subject.id}" class="lg:hidden absolute top-2 right-2 text-current opacity-40 hover:opacity-100 spring-transition p-2" aria-label="Remover disciplina">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+            </button>
+
+            <!-- Col 1: Title -->
+            <div class="flex flex-col w-full lg:w-64 shrink-0 relative justify-center">
+                <h3 class="text-2xl md:text-3xl font-display leading-tight pr-10 lg:pr-0 mb-3 line-clamp-3" title="${subject.name}">${subject.name}</h3>
+                <span class="text-[10px] font-bold tracking-[0.08em] uppercase self-start px-2.5 py-1 rounded-[4px] border ${theme.badge}">${badgeText}</span>
+            </div>
+
+            <!-- Col 2: Scroll Horizontal -->
+            <div class="flex-1 w-full overflow-x-auto custom-scrollbar pb-4 lg:pb-0 -mx-6 px-6 lg:mx-0 lg:px-0 snap-x snap-mandatory">
+                <ul class="flex flex-nowrap gap-3 w-max lg:pr-0 pb-1">
+                    ${assessmentsHTML}
+                </ul>
+            </div>
+
+            <!-- Col 3: Totals -->
+            <div class="flex flex-row lg:flex-col items-center justify-between lg:justify-center w-full lg:w-36 border-t lg:border-t-0 lg:border-l pt-6 lg:pt-0 lg:pl-8 shrink-0 relative ${theme.borderSplit}">
+                <!-- Delete Desktop -->
+                <button type="button" data-action="delete" data-subject-id="${subject.id}" class="hidden lg:flex items-center justify-center absolute top-0 right-0 text-current opacity-0 group-hover:opacity-60 hover:!opacity-100 spring-transition p-2 -mt-4 -mr-4 rounded-full" title="Remover Disciplina" aria-label="Remover">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                </button>
+                
+                <div class="flex flex-col items-start lg:items-end w-full">
+                    <span class="text-[11px] font-bold uppercase tracking-wider mb-1 opacity-70">Média Final</span>
+                    <span id="avg-${subject.id}" class="text-[40px] font-mono font-semibold tracking-tighter leading-none">${avg.toFixed(2)}</span>
+                </div>
+                <div id="status-${subject.id}" class="px-3 py-1.5 rounded-[4px] text-[11px] font-bold tracking-[0.05em] uppercase mt-0 lg:mt-4 text-center min-w-[80px] shadow-sm spring-transition border ${status.classes}">
+                    ${status.label}
+                </div>
+            </div>
+          </article>
+        </li>
+      `;
     }
 
-    function getActiveSemester() {
-      return state.semesters.find(s => s.id === state.activeSemesterId);
-    }
-
-    // --- 4. RENDER PIPELINE ---
-    function renderTabs() {
+    // MAIN RENDER CONTROLLER
+    function updateUI() {
+      // 1. Render Tabs
       dom.semestersList.innerHTML = '';
       state.semesters.forEach(sem => {
         const clone = templates.tab.content.cloneNode(true);
@@ -492,22 +630,18 @@
         clone.querySelector('.tab-name').textContent = sem.name;
         
         if (isSelected) {
-          btn.classList.add('bg-white', 'text-slate-900', 'shadow-sm', 'border-slate-200');
-          btn.classList.remove('text-slate-500', 'hover:bg-slate-200/50');
+          btn.classList.add('bg-white', 'text-ink', 'shadow-sm', 'border-hairline');
+          btn.classList.remove('text-ink/60', 'hover:bg-canvas');
         } else {
-          btn.classList.add('text-slate-500', 'hover:bg-slate-200/50');
-          btn.classList.remove('bg-white', 'text-slate-900', 'shadow-sm', 'border-slate-200');
+          btn.classList.add('text-ink/60', 'hover:bg-canvas');
+          btn.classList.remove('bg-white', 'text-ink', 'shadow-sm', 'border-hairline');
         }
 
-        btn.addEventListener('click', () => { state.activeSemesterId = sem.id; renderApp(); });
+        btn.addEventListener('click', () => { state.activeSemesterId = sem.id; updateUI(); });
         dom.semestersList.appendChild(clone);
       });
-    }
 
-    function renderApp() {
-      renderTabs();
-      dom.grid.innerHTML = '';
-      
+      // 2. Verifica Estado Ativo
       const activeSem = getActiveSemester();
 
       if (!activeSem) {
@@ -538,154 +672,122 @@
       dom.emptyState.classList.add('hidden'); dom.emptyState.classList.remove('flex');
       dom.grid.classList.remove('hidden');
 
+      // 3. Aplica Ordenação
       const sortedSubjects = [...activeSem.subjects].sort((a, b) => {
-        if (state.sortMode === 'name-asc') {
-          return a.name.localeCompare(b.name);
-        } else if (state.sortMode === 'grade-desc') {
-          return calculateAverage(b) - calculateAverage(a);
-        } else if (state.sortMode === 'grade-asc') {
-          return calculateAverage(a) - calculateAverage(b);
-        }
+        if (state.sortMode === 'name-asc') return a.name.localeCompare(b.name);
+        else if (state.sortMode === 'grade-desc') return Calculator.compute(b) - Calculator.compute(a);
+        else if (state.sortMode === 'grade-asc') return Calculator.compute(a) - Calculator.compute(b);
         return 0;
       });
 
-      sortedSubjects.forEach((subject, index) => {
-        if (!subject.calcType) subject.calcType = 'ponderada';
-
-        const clone = templates.row.content.cloneNode(true);
-        const article = clone.querySelector('article');
-        
-        article.style.animationDelay = `calc(${index} * 60ms)`;
-        article.classList.add('animate-fade-in-up');
-        clone.querySelector('.subject-title').textContent = subject.name;
-        clone.querySelector('.subject-title').title = subject.name; 
-        
-        const badgeMapping = { 
-          'ponderada': 'MÉDIA PONDERADA', 
-          'soma': 'SOMA SIMPLES', 
-          'media': 'MÉDIA ARITMÉTICA',
-          'media_categorias': 'SOMA DAS MÉDIAS',
-          'custom': 'FÓRMULA PERSONALIZADA'
-        };
-        clone.querySelector('.subject-type-badge').textContent = badgeMapping[subject.calcType] || badgeMapping['ponderada'];
-
-        clone.querySelectorAll('.btn-delete').forEach(btn => {
-            btn.addEventListener('click', () => {
-              activeSem.subjects = activeSem.subjects.filter(s => s.id !== subject.id);
-              renderApp();
-            });
-        });
-
-        const averageEl = clone.querySelector('.subject-average');
-        const statusEl = clone.querySelector('.subject-status');
-        
-        const updateCardTotals = () => {
-          const average = calculateAverage(subject);
-          const isFullyGraded = subject.assessments.every(a => a.grade !== null && a.grade !== undefined && a.grade !== "");
-          const status = getStatusInfo(average, isFullyGraded);
-          
-          averageEl.textContent = average.toFixed(2);
-          statusEl.textContent = status.label;
-          statusEl.className = `px-2 py-1 rounded border text-[10px] font-bold tracking-wide uppercase subject-status mt-0 md:mt-2 text-center min-w-[70px] spring-transition ${status.classes}`;
-        };
-
-        const listEl = clone.querySelector('.subject-assessments');
-        
-        subject.assessments.forEach(ass => {
-          const li = document.createElement('li');
-          // Adicionado snap-start para scrolling responsivo e agradável no mobile
-          li.className = "snap-start flex flex-col gap-2 bg-slate-50/70 border border-slate-200/60 p-3 rounded-xl min-w-[140px] md:min-w-[150px] flex-shrink-0 spring-transition hover:bg-white hover:border-slate-300 hover:shadow-sm";
-          
-          const topRow = document.createElement('div');
-          topRow.className = "flex justify-between items-start gap-2 w-full";
-          
-          const nameSpan = document.createElement('span');
-          nameSpan.className = "text-slate-800 text-xs font-semibold leading-tight truncate w-full";
-          nameSpan.textContent = ass.name;
-          nameSpan.title = ass.name;
-
-          const ponderadaSpan = document.createElement('span');
-          ponderadaSpan.className = "font-mono text-[10px] font-bold text-teal-700 bg-teal-100/50 px-1.5 py-0.5 rounded border border-teal-200/50 shrink-0";
-          
-          topRow.appendChild(nameSpan);
-          topRow.appendChild(ponderadaSpan);
-
-          const botRow = document.createElement('div');
-          botRow.className = "flex items-center justify-between gap-2 w-full mt-auto pt-1";
-
-          const gradeInput = document.createElement('input');
-          gradeInput.type = "number";
-          gradeInput.step = "0.01";
-          gradeInput.min = "0";
-          gradeInput.max = "10";
-          gradeInput.placeholder = "--";
-          gradeInput.className = "w-12 sm:w-14 px-1.5 py-1 text-xs font-mono text-center bg-white border border-slate-200 rounded focus:ring-2 focus:ring-teal-600/50 outline-none shadow-sm spring-transition";
-          gradeInput.value = ass.grade !== null && ass.grade !== undefined ? ass.grade : "";
-
-          const mathSpan = document.createElement('span');
-          mathSpan.className = "text-slate-400 font-mono text-[9px] uppercase tracking-wider flex items-center justify-end w-full";
-          
-          if (subject.calcType === 'soma') {
-            mathSpan.innerHTML = `SOMA`;
-          } else if (subject.calcType === 'media') {
-            mathSpan.innerHTML = `MÉDIA`;
-          } else if (subject.calcType === 'media_categorias') {
-            const catName = ass.category ? ass.category.substring(0,3).toUpperCase() : 'GER';
-            mathSpan.innerHTML = `GRP: <span class="text-slate-600 font-medium ml-1">${catName}</span>`;
-          } else {
-            mathSpan.innerHTML = `P:`;
-            const weightInput = document.createElement('input');
-            weightInput.type = "number";
-            weightInput.step = "0.01";
-            weightInput.placeholder = "1";
-            weightInput.className = "w-8 sm:w-10 ml-1 px-1 py-0.5 text-[10px] font-mono text-center bg-white border border-slate-200 rounded focus:ring-1 focus:ring-teal-600/50 outline-none transition-colors";
-            weightInput.value = (ass.weight !== null && ass.weight !== undefined) ? ass.weight : "";
-
-            weightInput.addEventListener('input', (e) => {
-               const val = parseFloat(e.target.value);
-               ass.weight = isNaN(val) ? null : val; 
-               updateRowPonderada();
-               updateCardTotals();
-            });
-
-            mathSpan.appendChild(weightInput);
-          }
-
-          botRow.appendChild(gradeInput);
-          botRow.appendChild(mathSpan);
-
-          li.appendChild(topRow);
-          li.appendChild(botRow);
-
-          const updateRowPonderada = () => {
-             const val = parseFloat(gradeInput.value);
-             const grade = isNaN(val) ? 0 : val;
-             if (subject.calcType === 'soma' || subject.calcType === 'media' || subject.calcType === 'media_categorias') {
-               ponderadaSpan.textContent = grade.toFixed(2);
-             } else {
-               const w = (ass.weight !== null && ass.weight !== undefined) ? ass.weight : 1;
-               ponderadaSpan.textContent = (grade * w).toFixed(2);
-             }
-          };
-          
-          updateRowPonderada();
-
-          gradeInput.addEventListener('input', (e) => {
-             const val = parseFloat(e.target.value);
-             ass.grade = isNaN(val) ? null : val;
-             updateRowPonderada();
-             updateCardTotals();
-          });
-
-          listEl.appendChild(li);
-        });
-
-        updateCardTotals();
-        dom.grid.appendChild(clone);
-      });
+      // 4. Injeta HTML Consolidado (Evita múltiplos reflows)
+      dom.grid.innerHTML = sortedSubjects.map((sub, index) => renderSubjectRow(sub, index)).join('');
     }
 
-    // --- 5. MODAL LOGIC (STRUCTURE & SELECTOR) ---
+    // 6. DELEGAÇÃO DE EVENTOS (Event Delegation no GRID)
+    // Ouve todas as mudanças de inputs e cliques de remoção de uma vez só!
+    dom.grid.addEventListener('input', (e) => {
+      if (e.target.tagName !== 'INPUT') return;
+      
+      const subjectId = e.target.getAttribute('data-subject-id');
+      const index = e.target.getAttribute('data-index');
+      const type = e.target.getAttribute('data-type'); // 'grade' ou 'weight'
+      const val = parseFloat(e.target.value);
+      
+      const activeSem = getActiveSemester();
+      if (!activeSem) return;
+      
+      const subjectIndex = activeSem.subjects.findIndex(s => s.id === subjectId);
+      if (subjectIndex === -1) return;
+      
+      const subject = activeSem.subjects[subjectIndex];
+      const assessment = subject.assessments[index];
+
+      // Atualiza o State
+      if (type === 'grade') {
+         assessment.grade = isNaN(val) ? null : val;
+      } else if (type === 'weight') {
+         assessment.weight = isNaN(val) ? null : val;
+      }
+
+      // Atualizações de UI cirúrgicas (Não re-renderiza a lista toda)
+      
+      // 1. Atualiza a mini-nota no cartão da prova
+      const itemResEl = document.getElementById(`res-${subjectId}-${index}`);
+      if (itemResEl) {
+        itemResEl.textContent = Calculator.calculateItemValue(assessment, subject.calcType).toFixed(2);
+      }
+
+      // 2. Atualiza os totais da Matéria
+      const avg = Calculator.compute(subject);
+      const isFullyGraded = subject.assessments.every(a => a.grade !== null && a.grade !== undefined && a.grade !== "");
+      
+      // Recuperar qual o tema desta materia pra aplicar a cor certa no label
+      const themeIndex = activeSem.subjects.sort((a,b) => {
+          if (state.sortMode === 'name-asc') return a.name.localeCompare(b.name);
+          else if (state.sortMode === 'grade-desc') return Calculator.compute(b) - Calculator.compute(a);
+          else if (state.sortMode === 'grade-asc') return Calculator.compute(a) - Calculator.compute(b);
+          return 0;
+      }).findIndex(s => s.id === subjectId);
+
+      const isDarkTheme = THEMES[themeIndex % THEMES.length].bg === 'bg-brand-teal' || THEMES[themeIndex % THEMES.length].bg === 'bg-brand-pink';
+
+      const status = Calculator.getStatus(avg, isFullyGraded, isDarkTheme);
+
+      const avgEl = document.getElementById(`avg-${subjectId}`);
+      if (avgEl) avgEl.textContent = avg.toFixed(2);
+
+      const statusEl = document.getElementById(`status-${subjectId}`);
+      if (statusEl) {
+         statusEl.textContent = status.label;
+         statusEl.className = `px-3 py-1.5 rounded-[4px] text-[11px] font-bold tracking-[0.05em] uppercase mt-0 lg:mt-4 text-center min-w-[80px] shadow-sm spring-transition border ${status.classes}`;
+      }
+    });
+
+    // Delegando os botões de "Deletar"
+    dom.grid.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-action="delete"]');
+      if (!btn) return;
+      
+      const subjectId = btn.getAttribute('data-subject-id');
+      const activeSem = getActiveSemester();
+      if (!activeSem) return;
+
+      activeSem.subjects = activeSem.subjects.filter(s => s.id !== subjectId);
+      updateUI();
+    });
+
+    // 7. LÓGICA DOS MODAIS (Semestre e Nova Disciplina)
+    function openSemesterModal() {
+      dom.formSemester.reset();
+      dom.modalSemester.showModal();
+      document.getElementById('semester-name').focus();
+    }
+    
+    function closeSemesterModal() { dom.modalSemester.close(); }
+
+    function handleSemesterSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('semester-name').value.trim();
+      if (name) {
+        const newSem = { id: crypto.randomUUID(), name: name, subjects: [] };
+        state.semesters.push(newSem);
+        state.activeSemesterId = newSem.id; 
+        closeSemesterModal();
+        updateUI();
+        setTimeout(() => { dom.semestersList.parentElement.scrollLeft = dom.semestersList.parentElement.scrollWidth; }, 50);
+      }
+    }
+
+    function handleDeleteSemester() {
+      if(confirm("Excluir semestre inteiro? Esta ação não pode ser desfeita.")) {
+        state.semesters = state.semesters.filter(s => s.id !== state.activeSemesterId);
+        state.activeSemesterId = state.semesters.length > 0 ? state.semesters[0].id : null;
+        updateUI();
+      }
+    }
+
+    // Modal Nova Disciplina
     function openSubjectModal() {
       dom.formSubject.reset();
       dom.assessmentsContainer.innerHTML = '';
@@ -701,32 +803,28 @@
       const clone = templates.assessmentRow.content.cloneNode(true);
       const rowDiv = clone.querySelector('div');
       
-      const inputName = clone.querySelector('.assessment-name');
-      const inputWeight = clone.querySelector('.assessment-weight');
-      const weightWrapper = clone.querySelector('.weight-wrapper');
-      
-      const inputCategory = clone.querySelector('.assessment-category');
-      const categoryWrapper = clone.querySelector('.category-wrapper');
-      
-      if(nameStr) inputName.value = nameStr;
-      if(weightStr !== "") inputWeight.value = weightStr;
-      if(categoryStr !== "") inputCategory.value = categoryStr;
+      if(nameStr) clone.querySelector('.assessment-name').value = nameStr;
+      if(weightStr !== "") clone.querySelector('.assessment-weight').value = weightStr;
+      if(categoryStr !== "") clone.querySelector('.assessment-category').value = categoryStr;
 
       const currentCalcType = dom.selectCalcType.value;
+      const weightWrap = clone.querySelector('.weight-wrapper');
+      const catWrap = clone.querySelector('.category-wrapper');
       
       if (currentCalcType === 'ponderada' || currentCalcType === 'custom') {
-        weightWrapper.classList.remove('hidden');
-        categoryWrapper.classList.add('hidden');
+        weightWrap.classList.remove('hidden');
+        catWrap.classList.add('hidden');
       } else if (currentCalcType === 'media_categorias') {
-        weightWrapper.classList.add('hidden');
-        categoryWrapper.classList.remove('hidden');
+        weightWrap.classList.add('hidden');
+        catWrap.classList.remove('hidden');
       } else {
-        weightWrapper.classList.add('hidden');
-        categoryWrapper.classList.add('hidden');
+        weightWrap.classList.add('hidden');
+        catWrap.classList.add('hidden');
       }
 
       clone.querySelector('.btn-remove-row').addEventListener('click', () => { rowDiv.remove(); });
       dom.assessmentsContainer.appendChild(clone);
+      setTimeout(() => { dom.assessmentsContainer.scrollTop = dom.assessmentsContainer.scrollHeight; }, 10);
     }
 
     function generateStructure() {
@@ -736,13 +834,13 @@
       const qtdSeminarios = parseInt(dom.inputGenSeminarios.value) || 0;
       const qtdAtividades = parseInt(dom.inputGenAtividades.value) || 0;
 
-      const totalItens = qtdProvas + qtdTrabalhos + qtdSeminarios + qtdAtividades;
-      const defaultWeight = totalItens > 0 ? (1 / totalItens).toFixed(3) : "";
+      const total = qtdProvas + qtdTrabalhos + qtdSeminarios + qtdAtividades;
+      const defWeight = total > 0 ? (1 / total).toFixed(3) : "";
 
-      for(let i=1; i<=qtdProvas; i++) addAssessmentRow(`P${i}`, defaultWeight, 'prova');
-      for(let i=1; i<=qtdTrabalhos; i++) addAssessmentRow(qtdTrabalhos === 1 ? `T1` : `T${i}`, defaultWeight, 'trabalho');
-      for(let i=1; i<=qtdSeminarios; i++) addAssessmentRow(qtdSeminarios === 1 ? `S1` : `S${i}`, defaultWeight, 'seminario');
-      for(let i=1; i<=qtdAtividades; i++) addAssessmentRow(qtdAtividades === 1 ? `A1` : `A${i}`, defaultWeight, 'atividade');
+      for(let i=1; i<=qtdProvas; i++) addAssessmentRow(`P${i}`, defWeight, 'prova');
+      for(let i=1; i<=qtdTrabalhos; i++) addAssessmentRow(qtdTrabalhos === 1 ? `T1` : `T${i}`, defWeight, 'trabalho');
+      for(let i=1; i<=qtdSeminarios; i++) addAssessmentRow(qtdSeminarios === 1 ? `S1` : `S${i}`, defWeight, 'seminario');
+      for(let i=1; i<=qtdAtividades; i++) addAssessmentRow(qtdAtividades === 1 ? `A1` : `A${i}`, defWeight, 'atividade');
     }
 
     function handleSubjectSubmit(e) {
@@ -750,6 +848,7 @@
       const nameInput = document.getElementById('subject-name').value.trim();
       const calcType = dom.selectCalcType.value;
       const customFormula = dom.inputCustomFormula.value.trim();
+      
       const rows = dom.assessmentsContainer.querySelectorAll('.group\\/row');
       const assessments = [];
       
@@ -762,12 +861,7 @@
         if (calcType !== 'ponderada' && calcType !== 'custom') aWeight = 1;
 
         if (aName) { 
-          assessments.push({ 
-            name: aName, 
-            grade: null, 
-            weight: aWeight,
-            category: aCategory
-          });
+          assessments.push({ name: aName, grade: null, weight: aWeight, category: aCategory });
         }
       });
 
@@ -781,17 +875,17 @@
           assessments: assessments 
         });
         closeSubjectModal();
-        renderApp();
+        updateUI(); // Chama updateUI ao invés de renderApp
       } else if (assessments.length === 0) {
-        alert("Gere os campos ou adicione linhas manualmente antes de salvar a estrutura.");
+        alert("Adicione linhas manualmente ou use o Gerador.");
       }
     }
 
+    // Toggle Dinâmico no formulário da Disciplina
     dom.selectCalcType.addEventListener('change', (e) => {
-      const calcType = e.target.value;
-      const rows = dom.assessmentsContainer.querySelectorAll('.group\\/row');
+      const type = e.target.value;
       
-      if (calcType === 'custom') {
+      if (type === 'custom') {
         dom.customFormulaSection.classList.remove('hidden');
         dom.inputCustomFormula.setAttribute('required', 'true');
       } else {
@@ -799,69 +893,35 @@
         dom.inputCustomFormula.removeAttribute('required');
       }
 
-      rows.forEach(row => {
-        const wWrap = row.querySelector('.weight-wrapper');
-        const cWrap = row.querySelector('.category-wrapper');
-        
-        if (calcType === 'ponderada' || calcType === 'custom') {
-          wWrap.classList.remove('hidden');
-          cWrap.classList.add('hidden');
-        } else if (calcType === 'media_categorias') {
-          wWrap.classList.add('hidden');
-          cWrap.classList.remove('hidden');
+      dom.assessmentsContainer.querySelectorAll('.group\\/row').forEach(row => {
+        if (type === 'ponderada' || type === 'custom') {
+          row.querySelector('.weight-wrapper').classList.remove('hidden');
+          row.querySelector('.category-wrapper').classList.add('hidden');
+        } else if (type === 'media_categorias') {
+          row.querySelector('.weight-wrapper').classList.add('hidden');
+          row.querySelector('.category-wrapper').classList.remove('hidden');
         } else {
-          wWrap.classList.add('hidden');
-          cWrap.classList.add('hidden');
+          row.querySelector('.weight-wrapper').classList.add('hidden');
+          row.querySelector('.category-wrapper').classList.add('hidden');
         }
       });
       
-      if (calcType === 'ponderada' || calcType === 'custom') dom.lblFormulaFinal.textContent = "Avaliações (Opcional: Defina os Pesos)";
-      else if (calcType === 'media_categorias') dom.lblFormulaFinal.textContent = "Avaliações (Defina os Grupos de Média)";
-      else dom.lblFormulaFinal.textContent = "Avaliações (Apenas Nomes)";
+      if (type === 'ponderada' || type === 'custom') dom.lblFormulaFinal.textContent = "Campos da Disciplina (Pesos Opcionais)";
+      else if (type === 'media_categorias') dom.lblFormulaFinal.textContent = "Campos (Defina os Grupos de Média)";
+      else dom.lblFormulaFinal.textContent = "Campos (Apenas Nomes)";
     });
 
     dom.selectSort.addEventListener('change', (e) => {
       state.sortMode = e.target.value;
-      renderApp();
+      updateUI(); // Refatorado
     });
 
-    // --- 6. MODAL LOGIC (SEMESTER) ---
-    function openSemesterModal() {
-      dom.formSemester.reset();
-      dom.modalSemester.showModal();
-      document.getElementById('semester-name').focus();
-    }
-    function closeSemesterModal() { dom.modalSemester.close(); }
-
-    function handleSemesterSubmit(e) {
-      e.preventDefault();
-      const name = document.getElementById('semester-name').value.trim();
-      if (name) {
-        const newSem = { id: crypto.randomUUID(), name: name, subjects: [] };
-        state.semesters.push(newSem);
-        state.activeSemesterId = newSem.id; 
-        closeSemesterModal();
-        renderApp();
-        setTimeout(() => { dom.semestersList.parentElement.scrollLeft = dom.semestersList.parentElement.scrollWidth; }, 50);
-      }
-    }
-
-    function handleDeleteSemester() {
-      if(confirm("Excluir semestre inteiro?")) {
-        state.semesters = state.semesters.filter(s => s.id !== state.activeSemesterId);
-        state.activeSemesterId = state.semesters.length > 0 ? state.semesters[0].id : null;
-        renderApp();
-      }
-    }
-
-    // --- 7. EVENT LISTENERS ---
+    // 8. SETUP LISTENERS
     dom.btnOpenSubjectModal.addEventListener('click', openSubjectModal);
     dom.btnCloseSubject.addEventListener('click', closeSubjectModal);
     dom.btnCancelSubject.addEventListener('click', closeSubjectModal);
-    
     dom.btnAddAssesment.addEventListener('click', () => addAssessmentRow());
     dom.btnGenerateRows.addEventListener('click', generateStructure);
-    
     dom.formSubject.addEventListener('submit', handleSubjectSubmit);
 
     dom.btnOpenSemesterModal.addEventListener('click', openSemesterModal);
@@ -871,6 +931,7 @@
     dom.formSemester.addEventListener('submit', handleSemesterSubmit);
     dom.btnDeleteSemester.addEventListener('click', handleDeleteSemester);
 
+    // Fechar modais clicando fora
     [dom.modalSubject, dom.modalSemester].forEach(modal => {
       modal.addEventListener('click', (e) => {
         const d = modal.getBoundingClientRect();
@@ -880,15 +941,8 @@
       });
     });
 
-    // --- 8. INITIALIZATION ---
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes fadeInUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-      .animate-fade-in-up { animation: fadeInUp 350ms cubic-bezier(0.34, 1.56, 0.64, 1) both; }
-    `;
-    document.head.appendChild(style);
-
-    renderApp();
+    // 9. START
+    updateUI();
 
   </script>
 </body>
