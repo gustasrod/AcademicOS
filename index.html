@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Academic.OS | Gestão de Notas</title>
+  <title>Academic.OS | O seu Hub de Estudos</title>
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -39,9 +39,6 @@
             lg: '16px',
             xl: '24px',
             pill: '9999px',
-          },
-          spacing: {
-            section: '96px',
           }
         }
       }
@@ -51,7 +48,7 @@
   <!-- Google Fonts: Inter & Geist Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     body {
@@ -60,7 +57,6 @@
       -webkit-font-smoothing: antialiased;
     }
     
-    /* Emulação da tipografia "Plain Black" com Inter e tracking negativo */
     .font-display {
       font-family: 'Inter', sans-serif;
       font-weight: 700;
@@ -71,7 +67,7 @@
       transition: all 300ms cubic-bezier(0.25, 1, 0.5, 1);
     }
     
-    /* Custom Scrollbar - Refinado para o tema Clay */
+    /* Custom Scrollbar */
     .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
     .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #e5e5e5; border-radius: 9999px; }
@@ -80,7 +76,6 @@
     .no-scrollbar-visible::-webkit-scrollbar { display: none; }
     .no-scrollbar-visible { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* Esconder setas numéricas nativas para um look mais limpo */
     input[type="number"]::-webkit-inner-spin-button,
     input[type="number"]::-webkit-outer-spin-button {
       -webkit-appearance: none;
@@ -88,7 +83,7 @@
     }
     input[type="number"] { -moz-appearance: textfield; }
     
-    /* Animação utilitária */
+    /* Animações */
     @keyframes fadeInUp { 
       from { opacity: 0; transform: translateY(16px) scale(0.99); } 
       to { opacity: 1; transform: translateY(0) scale(1); } 
@@ -98,119 +93,174 @@
     }
   </style>
 </head>
-<body class="min-h-[100dvh] flex flex-col bg-canvas font-sans text-ink">
+<body class="min-h-[100dvh] flex flex-col bg-canvas font-sans text-ink overflow-x-hidden">
 
-  <!-- Header Global -->
-  <header class="w-full bg-canvas/90 backdrop-blur-md sticky top-0 z-40">
-    <div class="max-w-[1280px] mx-auto px-5 lg:px-8 h-20 flex items-center justify-between">
-      <div class="flex items-center gap-2.5">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-ink" aria-hidden="true"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-        <h1 class="text-2xl font-display text-ink leading-none mt-1">Academic.OS</h1>
-      </div>
-      <button type="button" id="btn-open-subject-modal" class="spring-transition bg-primary hover:bg-primary/90 text-white px-5 h-11 rounded-md text-sm font-semibold flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-        <span class="hidden sm:inline">Nova Disciplina</span>
-        <span class="sm:hidden">Nova</span>
-      </button>
-    </div>
-    
-    <!-- Navegação de Semestres (Tabs) -->
-    <nav class="w-full bg-surface-soft border-y border-hairline shadow-[0_1px_2px_rgba(0,0,0,0.02)]" aria-label="Navegação de Semestres">
-      <div class="max-w-[1280px] mx-auto px-5 lg:px-8 flex items-center gap-3 overflow-x-auto custom-scrollbar no-scrollbar-visible py-3">
-        <ul id="semesters-list" role="tablist" class="flex items-center gap-2">
-          <!-- Abas Injetadas via JS -->
-        </ul>
-        <div class="h-6 w-px bg-hairline mx-2 flex-shrink-0" aria-hidden="true"></div>
-        <button type="button" id="btn-open-semester-modal" class="text-sm font-medium text-ink/60 hover:text-ink hover:bg-surface-strong px-4 py-2 rounded-pill spring-transition flex-shrink-0 flex items-center gap-2 border border-transparent">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-          Novo Semestre
+  <!-- ========================================= -->
+  <!-- HEADER & NAVEGAÇÃO GLOBAL (Fixos no topo) -->
+  <!-- ========================================= -->
+  <div class="sticky top-0 z-40 flex flex-col w-full shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+    <!-- Header Principal -->
+    <header class="w-full bg-canvas/90 backdrop-blur-md relative z-10">
+      <div class="max-w-[1280px] mx-auto px-5 lg:px-8 h-20 flex items-center justify-between">
+        
+        <!-- Logo (Agora funciona como botão Início) -->
+        <button type="button" id="brand-logo" class="flex items-center gap-2.5 hover:opacity-70 focus:outline-none spring-transition" aria-label="Voltar para a Apresentação">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-ink" aria-hidden="true"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+          <h1 class="text-2xl font-display text-ink leading-none mt-1">Academic.OS</h1>
         </button>
-      </div>
-    </nav>
-  </header>
 
-  <!-- Main Content -->
-  <main class="flex-1 w-full max-w-[1280px] mx-auto px-5 lg:px-8 py-10 md:py-16">
-    
-    <!-- Cabeçalho do Semestre Ativo -->
-    <header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
-      <div class="max-w-xl">
-        <h2 id="current-semester-title" class="text-4xl md:text-5xl font-display text-ink leading-tight">Carregando...</h2>
-        <p class="text-ink/70 mt-3 leading-relaxed text-[15px] font-medium">Acompanhamento de desempenho acadêmico. Adicione as notas diretamente nos cartões abaixo ao longo do semestre.</p>
-      </div>
-      
-      <div class="flex flex-row items-center gap-3 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
-        <!-- Controle de Ordenação -->
-        <div id="sort-control" class="hidden flex-row items-center gap-2 bg-white border border-hairline rounded-md px-3 h-11 spring-transition hover:border-ink/20 shrink-0 shadow-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-ink/50" aria-hidden="true"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg>
-          <select id="select-sort" class="text-sm font-medium text-ink bg-transparent focus:outline-none cursor-pointer pr-2 appearance-none">
-            <option value="name-asc">Ordem Alfabética</option>
-            <option value="grade-desc">Maior Nota</option>
-            <option value="grade-asc">Menor Nota</option>
-          </select>
-        </div>
-
-        <button type="button" id="btn-delete-semester" class="hidden items-center gap-2 px-4 h-11 text-sm font-semibold text-red-600 bg-[#fff5f5] hover:bg-[#ffebeb] rounded-md spring-transition shrink-0 border border-transparent hover:border-red-100">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-          <span class="hidden sm:inline">Excluir Semestre</span>
-          <span class="sm:hidden">Excluir</span>
+        <!-- Botão Global Nova Disciplina -->
+        <button type="button" id="btn-open-subject-modal" class="hidden spring-transition bg-primary hover:bg-primary/90 text-white px-5 h-11 rounded-md text-sm font-semibold items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+          <span class="hidden sm:inline">Nova Disciplina</span>
+          <span class="sm:hidden">Nova</span>
         </button>
       </div>
     </header>
+    
+    <!-- Navegação Global de Semestres (Apenas visível dentro das ferramentas) -->
+    <nav id="semester-nav" class="w-full bg-surface-soft border-y border-hairline hidden spring-transition origin-top" aria-label="Navegação Global de Semestres">
+      <div class="max-w-[1280px] mx-auto px-5 lg:px-8 flex items-center gap-3 overflow-x-auto custom-scrollbar no-scrollbar-visible py-3">
+        <ul id="semesters-list" role="tablist" class="flex items-center gap-2">
+          <!-- Abas Injetadas via JS (1º e 2º Semestre) -->
+        </ul>
+      </div>
+    </nav>
+  </div>
 
-    <!-- State: Sem Semestres -->
-    <section id="global-empty-state" class="hidden flex-col items-center justify-center py-24 border border-dashed border-ink/20 rounded-xl bg-surface-soft">
+  <!-- ========================================= -->
+  <!-- VISTA 0: APRESENTAÇÃO (LANDING PAGE/HOME) -->
+  <!-- ========================================= -->
+  <main id="view-home" class="flex-col flex-1 w-full max-w-[1280px] mx-auto px-5 lg:px-8 py-16 md:py-28 flex items-center justify-center text-center animate-fade-in-up">
+    <div class="w-20 h-20 bg-white border border-hairline rounded-[20px] flex items-center justify-center mb-8 shadow-sm">
+      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-ink"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h8"/><path d="M8 11h8"/><path d="M8 15h5"/></svg>
+    </div>
+    <h2 class="text-5xl md:text-7xl font-display text-ink leading-tight tracking-tight">O seu Hub de Estudos.</h2>
+    <p class="text-ink/60 mt-6 leading-relaxed text-[17px] md:text-lg max-w-2xl font-medium">Faça a gestão das suas notas, simule médias e controle as suas faltas num único lugar, adaptado às regras da sua faculdade.</p>
+    
+    <button id="btn-enter-app" class="mt-10 bg-primary hover:bg-[#1a1a1a] text-white px-8 h-14 rounded-full text-[16px] font-semibold spring-transition shadow-lg hover:-translate-y-1 flex items-center gap-3">
+       <span id="btn-enter-text">Acessar</span>
+       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </button>
+  </main>
+
+  <!-- ========================================= -->
+  <!-- STATE: NENHUM SEMESTRE                    -->
+  <!-- ========================================= -->
+  <div id="global-empty-state" class="hidden flex-1 w-full max-w-[1280px] mx-auto px-5 lg:px-8 py-10 md:py-16">
+    <section class="flex flex-col items-center justify-center py-24 border border-dashed border-ink/20 rounded-xl bg-surface-soft w-full">
       <div class="w-16 h-16 rounded-full bg-surface-strong flex items-center justify-center mb-6 text-ink/40 shadow-inner">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
       </div>
-      <h3 class="text-3xl font-display text-ink text-center mb-2 tracking-tight">Nenhum semestre cadastrado</h3>
-      <p class="text-ink/60 text-[16px] mb-8 text-center px-4 max-w-md font-medium">Crie seu primeiro semestre para começar a gerenciar suas disciplinas e avaliar seu progresso.</p>
-      <button type="button" id="btn-empty-add-semester" class="bg-primary hover:bg-primary/90 text-white px-8 h-12 rounded-md text-[15px] font-semibold spring-transition shadow-md hover:shadow-lg hover:-translate-y-0.5">
-        Criar Semestre
-      </button>
+      <h3 class="text-3xl font-display text-ink text-center mb-2 tracking-tight">Ocorreu um erro no carregamento</h3>
+      <p class="text-ink/60 text-[16px] mb-8 text-center px-4 max-w-md font-medium">Os semestres padrões não foram encontrados.</p>
     </section>
+  </div>
 
-    <!-- State: Empty Disciplinas -->
-    <section id="empty-state" class="hidden flex-col items-center justify-center py-24 border border-dashed border-ink/20 rounded-xl bg-surface-soft">
-      <div class="w-16 h-16 rounded-full bg-surface-strong flex items-center justify-center mb-6 text-ink/40 shadow-inner">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-      </div>
-      <h3 class="text-3xl font-display text-ink text-center mb-2 tracking-tight">Nenhuma disciplina neste semestre</h3>
-      <p class="text-ink/60 text-[16px] text-center px-4 font-medium max-w-md">O seu canvas está em branco. Adicione uma disciplina e configure o método de cálculo do professor.</p>
-    </section>
-
-    <!-- Container da Lista de Disciplinas (Onde a mágica acontece) -->
-    <ul id="subjects-grid" role="list" class="flex flex-col gap-6">
-      <!-- Injetado via JS -->
-    </ul>
-
-  </main>
-
-  <!-- Modal: Adicionar Semestre -->
-  <dialog id="modal-semester" class="backdrop:bg-ink/40 backdrop:backdrop-blur-sm p-0 rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.1)] border border-hairline w-[calc(100%-2rem)] sm:w-full max-w-sm m-auto overflow-hidden spring-transition opacity-0 translate-y-4 open:opacity-100 open:translate-y-0">
-    <div class="bg-canvas flex flex-col">
-      <header class="px-6 py-5 border-b border-hairline flex items-center justify-between bg-surface-soft">
-        <h3 class="text-xl font-display text-ink">Novo Semestre</h3>
-        <button type="button" id="btn-close-semester-modal" class="text-ink/40 hover:text-ink rounded-sm p-1 spring-transition" aria-label="Fechar modal">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+  <!-- ========================================= -->
+  <!-- CONTAINER DAS FERRAMENTAS (Com Sidebar)   -->
+  <!-- ========================================= -->
+  <div id="app-container" class="hidden flex-1 w-full max-w-[1280px] mx-auto flex-col md:flex-row animate-fade-in-up">
+    
+    <!-- Barra Lateral (Sidebar) de Ferramentas -->
+    <aside class="w-full md:w-[260px] border-b md:border-b-0 md:border-r border-hairline bg-surface-soft/30 md:bg-transparent overflow-x-auto md:overflow-visible shrink-0 md:min-h-full">
+      <div class="flex flex-row md:flex-col gap-2 p-5 md:py-10 md:pr-8 sticky top-[136px]">
+        <div class="hidden md:block text-[11px] font-bold text-ink/40 uppercase tracking-wider mb-2 px-3">Ferramentas</div>
+        
+        <button id="btn-sidebar-calc" class="flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-semibold spring-transition whitespace-nowrap bg-white shadow-sm border border-hairline text-ink">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h8"/><path d="M8 11h8"/><path d="M8 15h5"/></svg>
+          Calculadora de Notas
         </button>
-      </header>
-      <div class="p-6">
-        <form id="form-semester" class="space-y-4">
-          <div class="space-y-2">
-            <label for="semester-name" class="block text-[13px] font-bold uppercase tracking-wider text-ink/70">Nome do Semestre</label>
-            <input type="text" id="semester-name" required placeholder="Ex: 2025.2 ou 4º Período" class="w-full px-4 h-12 bg-white border border-hairline rounded-md focus:outline-none focus:border-ink/50 focus:ring-4 focus:ring-ink/5 spring-transition text-ink font-medium shadow-sm">
+        
+        <button id="btn-sidebar-absences" class="flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-semibold spring-transition whitespace-nowrap text-ink/60 hover:bg-surface-strong border border-transparent">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M15 2H9a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1Z"/></svg>
+          Gestão de Faltas
+        </button>
+        
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-semibold whitespace-nowrap text-ink/30 cursor-not-allowed border border-transparent">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Foco & Pomodoro
+          <span class="ml-auto text-[9px] uppercase tracking-wider bg-ink/5 px-2 py-0.5 rounded border border-ink/5">Em breve</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Área de Conteúdo da Ferramenta -->
+    <div class="flex-1 w-full flex flex-col relative px-5 lg:px-8 py-8 md:py-10">
+      
+      <!-- ========================================= -->
+      <!-- VISTA A: CALCULADORA DE NOTAS             -->
+      <!-- ========================================= -->
+      <div id="view-calc" class="hidden flex-col w-full animate-fade-in-up">
+        <!-- Cabeçalho da Calculadora -->
+        <header class="mb-10 flex flex-col xl:flex-row xl:items-end justify-between gap-6">
+          <div>
+            <h2 class="text-3xl md:text-4xl font-display text-ink leading-tight">Calculadora de Notas</h2>
+            <p class="text-ink/60 mt-2 leading-relaxed text-[15px] font-medium max-w-lg">Insira as notas diretamente nos cartões para simular e acompanhar sua média.</p>
           </div>
-        </form>
+          
+          <div class="flex flex-row items-center gap-3 w-full xl:w-auto overflow-x-auto pb-1 xl:pb-0 shrink-0">
+            <!-- Controle de Ordenação -->
+            <div id="sort-control-calc" class="hidden flex-row items-center gap-2 bg-white border border-hairline rounded-md px-3 h-11 spring-transition hover:border-ink/20 shrink-0 shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-ink/50" aria-hidden="true"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg>
+              <select id="select-sort-calc" class="text-sm font-medium text-ink bg-transparent focus:outline-none cursor-pointer pr-2 appearance-none">
+                <option value="name-asc">Ordem Alfabética</option>
+                <option value="grade-desc">Maior Nota</option>
+                <option value="grade-asc">Menor Nota</option>
+              </select>
+            </div>
+          </div>
+        </header>
+
+        <!-- State: Empty Disciplinas -->
+        <section id="empty-state-calc" class="hidden flex-col items-center justify-center py-20 border border-dashed border-ink/20 rounded-xl bg-surface-soft">
+          <div class="w-14 h-14 rounded-full bg-surface-strong flex items-center justify-center mb-5 text-ink/40 shadow-inner">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <h3 class="text-2xl font-display text-ink text-center mb-2 tracking-tight">Nenhuma disciplina adicionada</h3>
+          <p class="text-ink/60 text-[15px] text-center px-4 font-medium max-w-sm">O seu painel está em branco. Clique em "Nova Disciplina" no topo direito para começar.</p>
+        </section>
+
+        <!-- Container da Lista de Disciplinas (Notas) -->
+        <ul id="subjects-grid" role="list" class="flex flex-col gap-6">
+          <!-- Injetado via JS -->
+        </ul>
       </div>
-      <footer class="px-6 py-5 border-t border-hairline bg-surface-soft flex items-center justify-end gap-3">
-        <button type="button" id="btn-cancel-semester" class="px-5 h-11 text-sm font-semibold text-ink bg-white border border-hairline hover:bg-surface-card spring-transition rounded-md shadow-sm">Cancelar</button>
-        <button type="submit" form="form-semester" class="bg-primary hover:bg-primary/90 text-white px-6 h-11 rounded-md text-sm font-semibold spring-transition shadow-sm">
-          Salvar
-        </button>
-      </footer>
+
+      <!-- ========================================= -->
+      <!-- VISTA B: GESTÃO DE FALTAS                 -->
+      <!-- ========================================= -->
+      <div id="view-absences" class="hidden flex-col w-full animate-fade-in-up">
+        <!-- Cabeçalho de Faltas -->
+        <header class="mb-10 flex flex-col xl:flex-row xl:items-end justify-between gap-6">
+          <div>
+            <h2 class="text-3xl md:text-4xl font-display text-ink leading-tight">Gestão de Faltas</h2>
+            <p class="text-ink/60 mt-2 leading-relaxed text-[15px] font-medium max-w-xl">Configure os créditos e a margem de limite (ex: 30%) da faculdade. O sistema diz quantas aulas ainda pode faltar.</p>
+          </div>
+        </header>
+
+        <!-- State: Empty Disciplinas -->
+        <section id="empty-state-absences" class="hidden flex-col items-center justify-center py-20 border border-dashed border-ink/20 rounded-xl bg-surface-soft">
+          <div class="w-14 h-14 rounded-full bg-surface-strong flex items-center justify-center mb-5 text-ink/40 shadow-inner">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M15 2H9a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1Z"/></svg>
+          </div>
+          <h3 class="text-2xl font-display text-ink text-center mb-2 tracking-tight">Sem disciplinas ativas</h3>
+          <p class="text-ink/60 text-[15px] text-center px-4 font-medium max-w-sm">Crie uma "Nova Disciplina" no topo para começar a gerir as suas faltas neste semestre.</p>
+        </section>
+
+        <!-- Container da Lista de Disciplinas (Faltas) -->
+        <ul id="absences-grid" role="list" class="flex flex-col gap-6">
+          <!-- Injetado via JS -->
+        </ul>
+      </div>
+
     </div>
-  </dialog>
+  </div>
+
+
+  <!-- ========================================= -->
+  <!-- MODAIS DE CRIAÇÃO E EDIÇÃO                -->
+  <!-- ========================================= -->
 
   <!-- Modal: Adicionar Disciplina & Gerador de Fórmula -->
   <dialog id="modal-subject" class="backdrop:bg-ink/40 backdrop:backdrop-blur-sm p-0 rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.1)] border border-hairline w-[calc(100%-2rem)] sm:w-full max-w-2xl m-auto overflow-hidden spring-transition opacity-0 translate-y-4 open:opacity-100 open:translate-y-0">
@@ -314,16 +364,20 @@
     </div>
   </dialog>
 
-  <!-- Template Oculto: Aba de Semestre -->
+  <!-- ========================================= -->
+  <!-- TEMPLATES OCULTOS                         -->
+  <!-- ========================================= -->
+
+  <!-- Aba de Semestre -->
   <template id="tpl-semester-tab">
     <li role="presentation" class="flex-shrink-0">
-      <button role="tab" aria-selected="false" class="semester-tab-btn px-5 h-10 rounded-pill text-[14px] font-semibold spring-transition border border-transparent flex items-center gap-2 hover:shadow-sm">
+      <button role="tab" aria-selected="false" class="semester-tab-btn px-5 h-10 rounded-pill text-[14px] font-semibold spring-transition border border-transparent flex items-center gap-2 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-ink/20">
         <span class="tab-name"></span>
       </button>
     </li>
   </template>
 
-  <!-- Template Oculto: Nova Linha de Avaliação (Para o Modal) -->
+  <!-- Nova Linha de Avaliação (Para o Modal) -->
   <template id="tpl-assessment-row">
     <div class="flex items-center gap-2 sm:gap-3 group/row bg-white p-2 rounded-md border border-hairline hover:border-ink/30 spring-transition shadow-sm">
       <input type="text" placeholder="Ex: Prova 1" required class="assessment-name flex-1 min-w-[80px] sm:min-w-[120px] px-3 h-10 bg-surface-soft border border-transparent rounded-sm text-[14px] focus:outline-none focus:bg-white focus:border-ink/40 font-semibold text-ink transition-colors">
@@ -355,52 +409,69 @@
     </div>
   </template>
 
-  <!-- Core Application Logic (Refatorado para Delegar Eventos e Gerar UI Via Strings) -->
+  <!-- ========================================= -->
+  <!-- JAVASCRIPT: LÓGICA E RENDERIZAÇÃO         -->
+  <!-- ========================================= -->
   <script type="module">
     // 1. DADOS INICIAIS E ESTADO
-    const initialSemesters = [];
     
-    // O Objeto state é a fonte única da verdade.
+    // Semestres estáticos - Não podem ser deletados, o ano só tem dois semestres.
+    const initialSemesters = [
+      { id: 'semestre-1', name: '1º Semestre', subjects: [] },
+      { id: 'semestre-2', name: '2º Semestre', subjects: [] }
+    ];
+    
     let state = {
       semesters: [...initialSemesters],
-      activeSemesterId: null,
-      sortMode: 'name-asc' // 'name-asc', 'grade-desc', 'grade-asc'
+      activeSemesterId: initialSemesters[0].id,
+      activeView: 'home', // 'home', 'calc', 'absences'
+      sortMode: 'name-asc'
     };
 
-    // 2. REFERÊNCIAS DO DOM (Estáticas)
+    // 2. REFERÊNCIAS DO DOM
     const dom = {
-      grid: document.getElementById('subjects-grid'),
-      emptyState: document.getElementById('empty-state'),
+      // Container e Views
+      appContainer: document.getElementById('app-container'),
+      viewHome: document.getElementById('view-home'),
+      viewCalc: document.getElementById('view-calc'),
+      viewAbsences: document.getElementById('view-absences'),
+      
+      // Barra Lateral / Ferramentas
+      btnSidebarCalc: document.getElementById('btn-sidebar-calc'),
+      btnSidebarAbsences: document.getElementById('btn-sidebar-absences'),
+      
+      // Nav e Botões Iniciais
+      brandLogo: document.getElementById('brand-logo'),
+      semesterNav: document.getElementById('semester-nav'),
+      btnEnterApp: document.getElementById('btn-enter-app'),
+
+      // Grids e Empty States
+      gridCalc: document.getElementById('subjects-grid'),
+      emptyStateCalc: document.getElementById('empty-state-calc'),
+      
+      gridAbsences: document.getElementById('absences-grid'),
+      emptyStateAbsences: document.getElementById('empty-state-absences'),
+
       globalEmptyState: document.getElementById('global-empty-state'),
       semestersList: document.getElementById('semesters-list'),
       
-      currentSemesterTitle: document.getElementById('current-semester-title'),
-      btnDeleteSemester: document.getElementById('btn-delete-semester'),
       btnOpenSubjectModal: document.getElementById('btn-open-subject-modal'),
-      btnOpenSemesterModal: document.getElementById('btn-open-semester-modal'),
-      btnEmptyAddSemester: document.getElementById('btn-empty-add-semester'),
       
-      sortControl: document.getElementById('sort-control'),
-      selectSort: document.getElementById('select-sort'),
+      sortControlCalc: document.getElementById('sort-control-calc'),
+      selectSortCalc: document.getElementById('select-sort-calc'),
 
+      // Modais
       modalSubject: document.getElementById('modal-subject'),
-      modalSemester: document.getElementById('modal-semester'),
-      
       formSubject: document.getElementById('form-subject'),
-      formSemester: document.getElementById('form-semester'),
       assessmentsContainer: document.getElementById('assessments-container'),
       selectCalcType: document.getElementById('subject-calc-type'),
       lblFormulaFinal: document.getElementById('lbl-formula-final'),
-      
       customFormulaSection: document.getElementById('custom-formula-section'),
       inputCustomFormula: document.getElementById('subject-custom-formula'),
       
       btnCloseSubject: document.getElementById('btn-close-subject-modal'),
       btnCancelSubject: document.getElementById('btn-cancel-subject'),
       btnAddAssesment: document.getElementById('btn-add-assessment'),
-      btnCloseSemester: document.getElementById('btn-close-semester-modal'),
-      btnCancelSemester: document.getElementById('btn-cancel-semester'),
-
       btnGenerateRows: document.getElementById('btn-generate-rows'),
       inputGenProvas: document.getElementById('gen-provas'),
       inputGenTrabalhos: document.getElementById('gen-trabalhos'),
@@ -413,24 +484,30 @@
       tab: document.getElementById('tpl-semester-tab')
     };
 
+    // 2.5 NAVEGAÇÃO ENTRE VISTAS E BARRA LATERAL
+    dom.brandLogo.addEventListener('click', () => { state.activeView = 'home'; updateUI(); });
+    
+    dom.btnEnterApp.addEventListener('click', () => { 
+        state.activeView = 'calc'; // Entra por defeito na calculadora
+        updateUI(); 
+    });
+
+    dom.btnSidebarCalc.addEventListener('click', () => { state.activeView = 'calc'; updateUI(); });
+    dom.btnSidebarAbsences.addEventListener('click', () => { state.activeView = 'absences'; updateUI(); });
+
     // 3. DESIGN SYSTEM (Clay Palette Map)
-    // Cores saturadas para as disciplinas - Estilo Clay B2B
     const THEMES = [
-      { bg: 'bg-brand-pink', text: 'text-white', badge: 'bg-white/20 border-white/20', innerBox: 'bg-white/10 border-white/20', inputBg: 'bg-white/10 text-white border-transparent focus:bg-white focus:text-ink', borderSplit: 'border-white/20', accent: 'bg-white/20 text-white border-white/10' },
-      { bg: 'bg-brand-teal', text: 'text-white', badge: 'bg-white/10 border-white/10', innerBox: 'bg-white/5 border-white/10', inputBg: 'bg-white/10 text-white border-transparent focus:bg-white focus:text-ink', borderSplit: 'border-white/10', accent: 'bg-white/10 text-white border-white/5' },
-      { bg: 'bg-brand-lavender', text: 'text-ink', badge: 'bg-white/60 border-white/50', innerBox: 'bg-white/50 border-white/50', inputBg: 'bg-white/70 text-ink border-transparent focus:bg-white focus:border-ink/20', borderSplit: 'border-ink/10', accent: 'bg-white/60 text-ink border-white/40' },
-      { bg: 'bg-brand-peach', text: 'text-ink', badge: 'bg-white/60 border-white/50', innerBox: 'bg-white/50 border-white/50', inputBg: 'bg-white/70 text-ink border-transparent focus:bg-white focus:border-ink/20', borderSplit: 'border-ink/10', accent: 'bg-white/60 text-ink border-white/40' },
-      { bg: 'bg-brand-ochre', text: 'text-ink', badge: 'bg-white/60 border-white/50', innerBox: 'bg-white/50 border-white/50', inputBg: 'bg-white/70 text-ink border-transparent focus:bg-white focus:border-ink/20', borderSplit: 'border-ink/10', accent: 'bg-white/60 text-ink border-white/40' },
-      { bg: 'bg-surface-card', text: 'text-ink', badge: 'bg-white border-hairline', innerBox: 'bg-white border-hairline', inputBg: 'bg-surface-soft text-ink border-hairline focus:bg-white focus:border-ink/30', borderSplit: 'border-hairline', accent: 'bg-surface-soft text-ink border-hairline' },
+      { bg: 'bg-brand-pink', text: 'text-white', badge: 'bg-white/20 border-white/20 text-white', innerBox: 'bg-white/10 border-white/20', inputBg: 'bg-white/10 text-white border-transparent focus:bg-white focus:text-ink', borderSplit: 'border-white/20', accent: 'bg-white/20 text-white border-white/10' },
+      { bg: 'bg-brand-teal', text: 'text-white', badge: 'bg-white/10 border-white/10 text-white', innerBox: 'bg-white/5 border-white/10', inputBg: 'bg-white/10 text-white border-transparent focus:bg-white focus:text-ink', borderSplit: 'border-white/10', accent: 'bg-white/10 text-white border-white/5' },
+      { bg: 'bg-brand-lavender', text: 'text-ink', badge: 'bg-white/60 border-white/50 text-ink', innerBox: 'bg-white/50 border-white/50', inputBg: 'bg-white/70 text-ink border-transparent focus:bg-white focus:border-ink/20', borderSplit: 'border-ink/10', accent: 'bg-white/60 text-ink border-white/40' },
+      { bg: 'bg-brand-peach', text: 'text-ink', badge: 'bg-white/60 border-white/50 text-ink', innerBox: 'bg-white/50 border-white/50', inputBg: 'bg-white/70 text-ink border-transparent focus:bg-white focus:border-ink/20', borderSplit: 'border-ink/10', accent: 'bg-white/60 text-ink border-white/40' },
+      { bg: 'bg-brand-ochre', text: 'text-ink', badge: 'bg-white/60 border-white/50 text-ink', innerBox: 'bg-white/50 border-white/50', inputBg: 'bg-white/70 text-ink border-transparent focus:bg-white focus:border-ink/20', borderSplit: 'border-ink/10', accent: 'bg-white/60 text-ink border-white/40' },
+      { bg: 'bg-surface-card', text: 'text-ink', badge: 'bg-white border-hairline text-ink', innerBox: 'bg-white border-hairline', inputBg: 'bg-surface-soft text-ink border-hairline focus:bg-white focus:border-ink/30', borderSplit: 'border-hairline', accent: 'bg-surface-soft text-ink border-hairline' },
     ];
 
-    // Mapeamento dos Labels dos Métodos
     const METHOD_LABELS = {
-      'ponderada': 'PONDERADA',
-      'soma': 'SOMA SIMPLES',
-      'media': 'MÉDIA ARITMÉTICA',
-      'media_categorias': 'SOMA DAS MÉDIAS',
-      'custom': 'FÓRMULA CUSTOM'
+      'ponderada': 'PONDERADA', 'soma': 'SOMA SIMPLES', 'media': 'MÉDIA ARITMÉTICA',
+      'media_categorias': 'SOMA DAS MÉDIAS', 'custom': 'FÓRMULA CUSTOM'
     };
 
     // 4. MOTORES DE CÁLCULO E LÓGICA DE NEGÓCIO
@@ -440,16 +517,11 @@
         if (assessments.length === 0) return 0;
         
         let sum = 0;
-        
         switch (subject.calcType) {
           case 'soma':
-            sum = assessments.reduce((acc, a) => acc + (a.grade || 0), 0);
-            return sum;
-            
+            return assessments.reduce((acc, a) => acc + (a.grade || 0), 0);
           case 'media':
-            sum = assessments.reduce((acc, a) => acc + (a.grade || 0), 0);
-            return sum / assessments.length;
-            
+            return assessments.reduce((acc, a) => acc + (a.grade || 0), 0) / assessments.length;
           case 'media_categorias':
             const categories = {};
             assessments.forEach(a => {
@@ -460,16 +532,12 @@
             });
             let total = 0;
             for (const cat in categories) {
-              if (categories[cat].count > 0) {
-                total += (categories[cat].sum / categories[cat].count);
-              }
+              if (categories[cat].count > 0) total += (categories[cat].sum / categories[cat].count);
             }
             return total;
-            
           case 'custom':
             let formula = subject.customFormula || "0";
             formula = formula.replace(/,/g, '.'); 
-            // Substituição segura por variáveis (do maior para o menor nome)
             const sorted = [...assessments].sort((a, b) => b.name.length - a.name.length);
             sorted.forEach(a => {
               const val = (a.grade !== null && a.grade !== undefined && a.grade !== "") ? a.grade : 0;
@@ -478,31 +546,26 @@
               formula = formula.split(a.name).join(val);
             });
             try {
-              // Limpa qualquer injeção maliciosa, permitindo apenas matemática básica
               const sanitized = formula.replace(/[^0-9+\-*/().\s]/g, '');
               const result = new Function('return ' + sanitized)();
               return isNaN(result) || !isFinite(result) ? 0 : result;
             } catch (e) {
               return 0; 
             }
-            
           case 'ponderada':
           default:
-             sum = assessments.reduce((acc, a) => {
+             return assessments.reduce((acc, a) => {
                const w = (a.weight !== null && a.weight !== undefined) ? a.weight : 1;
                return acc + ((a.grade || 0) * w);
              }, 0);
-             return sum;
         }
       },
 
       getStatus(average, isFullyGraded, isDarkTheme) {
         const baseClass = isDarkTheme ? "bg-white/20 border-white/20 text-white" : "bg-white border-hairline text-ink";
-        
         if (average >= 6.0) return { label: 'APROVADO', classes: baseClass };
         if (average >= 4.0 && isFullyGraded) return { label: 'FINAL', classes: baseClass };
         if (average < 4.0 && isFullyGraded) return { label: 'REPROVADO', classes: isDarkTheme ? 'bg-red-500/80 text-white border-red-500/50' : 'bg-red-100 text-red-700 border-red-200' };
-        
         return { label: 'CURSANDO', classes: baseClass };
       },
       
@@ -517,13 +580,31 @@
       }
     };
 
-    // 5. MOTORES DE RENDERIZAÇÃO (UI Components via JS)
-    
-    // Função utilitária para renderizar um "mini-card" de avaliação dentro da disciplina
+    const AbsenceController = {
+        compute(subject) {
+            const credits = subject.credits !== undefined ? subject.credits : 60;
+            const limitPct = subject.absenceLimit !== undefined ? subject.absenceLimit : 30;
+            const absences = subject.absences !== undefined ? subject.absences : 0;
+            
+            const maxFaltas = Math.floor(credits * (limitPct / 100));
+            const calcRemaining = maxFaltas - absences - 1;
+            const remaining = calcRemaining < 0 ? 0 : calcRemaining;
+            const isFailed = absences >= maxFaltas;
+
+            return { credits, limitPct, absences, maxFaltas, remaining, isFailed };
+        },
+        getStatus(isFailed, isDarkTheme) {
+            const baseClass = isDarkTheme ? "bg-white/20 border-white/20 text-white" : "bg-white border-hairline text-ink";
+            if (isFailed) {
+                return { label: 'REPROVADO POR FALTAS', classes: isDarkTheme ? 'bg-red-500/80 text-white border-red-500/50' : 'bg-red-100 text-red-700 border-red-200' };
+            }
+            return { label: 'DENTRO DO LIMITE', classes: baseClass };
+        }
+    };
+
+    // 5. MOTORES DE RENDERIZAÇÃO
     function renderAssessmentItem(ass, index, subjectId, calcType, theme) {
       let mathContextHTML = '';
-      
-      // Define a dica visual matemática do card
       if (calcType === 'soma') {
         mathContextHTML = `SOMA`;
       } else if (calcType === 'media') {
@@ -534,7 +615,7 @@
       } else {
         const wVal = (ass.weight !== null && ass.weight !== undefined) ? ass.weight : "";
         mathContextHTML = `
-          <label for="w-${subjectId}-${index}" class="sr-only">Peso para ${ass.name}</label>
+          <label for="w-${subjectId}-${index}" class="sr-only">Peso</label>
           P: <input type="number" id="w-${subjectId}-${index}" data-subject-id="${subjectId}" data-index="${index}" data-type="weight" step="0.01" placeholder="1" class="w-10 h-6 ml-1.5 px-1 text-[10px] font-mono font-medium text-center rounded-sm outline-none transition-colors border ${theme.inputBg}" value="${wVal}">
         `;
       }
@@ -549,7 +630,7 @@
             <span id="res-${subjectId}-${index}" class="font-mono text-[11px] font-bold px-1.5 py-0.5 rounded-sm border shrink-0 ${theme.accent}">${itemVal}</span>
           </div>
           <div class="flex items-center justify-between gap-3 w-full mt-auto pt-2">
-            <label for="g-${subjectId}-${index}" class="sr-only">Nota para ${ass.name}</label>
+            <label for="g-${subjectId}-${index}" class="sr-only">Nota</label>
             <input type="number" id="g-${subjectId}-${index}" data-subject-id="${subjectId}" data-index="${index}" data-type="grade" step="0.01" min="0" max="10" placeholder="--" class="w-14 h-8 px-1.5 text-xs font-mono font-bold text-center rounded-sm outline-none shadow-sm spring-transition border ${theme.inputBg}" value="${gradeVal}">
             <span class="font-mono text-[10px] font-medium uppercase tracking-wider flex items-center justify-end w-full opacity-80">
               ${mathContextHTML}
@@ -559,18 +640,14 @@
       `;
     }
 
-    // Função que renderiza uma linha completa de disciplina
-    function renderSubjectRow(subject, index) {
+    function renderSubjectRowCalc(subject, index) {
       const theme = THEMES[index % THEMES.length];
       const isDark = theme.bg === 'bg-brand-teal' || theme.bg === 'bg-brand-pink';
-      
       const badgeText = METHOD_LABELS[subject.calcType] || METHOD_LABELS['ponderada'];
-      
       const avg = Calculator.compute(subject);
       const isFullyGraded = subject.assessments.every(a => a.grade !== null && a.grade !== undefined && a.grade !== "");
       const status = Calculator.getStatus(avg, isFullyGraded, isDark);
 
-      // Renderiza as mini-cards de avaliações (Garante o scroll magnético)
       const assessmentsHTML = subject.assessments.map((ass, i) => 
         renderAssessmentItem(ass, i, subject.id, subject.calcType, theme)
       ).join('');
@@ -578,32 +655,22 @@
       return `
         <li class="animate-fade-in-up" style="animation-delay: ${index * 60}ms">
           <article class="rounded-[20px] p-6 md:p-8 flex flex-col lg:flex-row gap-6 spring-transition group relative items-start lg:items-stretch overflow-hidden shadow-sm hover:shadow-md ${theme.bg} ${theme.text}">
-            
-            <!-- Delete Mobile -->
-            <button type="button" data-action="delete" data-subject-id="${subject.id}" class="lg:hidden absolute top-2 right-2 text-current opacity-40 hover:opacity-100 spring-transition p-2" aria-label="Remover disciplina">
+            <button type="button" data-action="delete" data-subject-id="${subject.id}" class="lg:hidden absolute top-2 right-2 text-current opacity-40 hover:opacity-100 spring-transition p-2" aria-label="Remover">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
             </button>
-
-            <!-- Col 1: Title -->
             <div class="flex flex-col w-full lg:w-64 shrink-0 relative justify-center">
                 <h3 class="text-2xl md:text-3xl font-display leading-tight pr-10 lg:pr-0 mb-3 line-clamp-3" title="${subject.name}">${subject.name}</h3>
                 <span class="text-[10px] font-bold tracking-[0.08em] uppercase self-start px-2.5 py-1 rounded-[4px] border ${theme.badge}">${badgeText}</span>
             </div>
-
-            <!-- Col 2: Scroll Horizontal -->
             <div class="flex-1 w-full overflow-x-auto custom-scrollbar pb-4 lg:pb-0 -mx-6 px-6 lg:mx-0 lg:px-0 snap-x snap-mandatory">
                 <ul class="flex flex-nowrap gap-3 w-max lg:pr-0 pb-1">
                     ${assessmentsHTML}
                 </ul>
             </div>
-
-            <!-- Col 3: Totals -->
             <div class="flex flex-row lg:flex-col items-center justify-between lg:justify-center w-full lg:w-36 border-t lg:border-t-0 lg:border-l pt-6 lg:pt-0 lg:pl-8 shrink-0 relative ${theme.borderSplit}">
-                <!-- Delete Desktop -->
                 <button type="button" data-action="delete" data-subject-id="${subject.id}" class="hidden lg:flex items-center justify-center absolute top-0 right-0 text-current opacity-0 group-hover:opacity-60 hover:!opacity-100 spring-transition p-2 -mt-4 -mr-4 rounded-full" title="Remover Disciplina" aria-label="Remover">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
                 </button>
-                
                 <div class="flex flex-col items-start lg:items-end w-full">
                     <span class="text-[11px] font-bold uppercase tracking-wider mb-1 opacity-70">Média Final</span>
                     <span id="avg-${subject.id}" class="text-[40px] font-mono font-semibold tracking-tighter leading-none">${avg.toFixed(2)}</span>
@@ -617,81 +684,202 @@
       `;
     }
 
-    // MAIN RENDER CONTROLLER
+    function renderSubjectRowAbsences(subject, index) {
+      const theme = THEMES[index % THEMES.length];
+      const isDark = theme.bg === 'bg-brand-teal' || theme.bg === 'bg-brand-pink';
+      
+      const absData = AbsenceController.compute(subject);
+      const status = AbsenceController.getStatus(absData.isFailed, isDark);
+
+      return `
+        <li class="animate-fade-in-up" style="animation-delay: ${index * 60}ms">
+          <article class="rounded-[20px] p-6 md:p-8 flex flex-col lg:flex-row gap-6 spring-transition group relative items-start lg:items-stretch overflow-hidden shadow-sm hover:shadow-md ${theme.bg} ${theme.text}">
+            <button type="button" data-action="delete" data-subject-id="${subject.id}" class="lg:hidden absolute top-2 right-2 text-current opacity-40 hover:opacity-100 spring-transition p-2" aria-label="Remover">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+            </button>
+            <div class="flex flex-col w-full lg:w-64 shrink-0 relative justify-center">
+                <h3 class="text-2xl md:text-3xl font-display leading-tight pr-10 lg:pr-0 mb-3 line-clamp-3" title="${subject.name}">${subject.name}</h3>
+                <span class="text-[10px] font-bold tracking-[0.08em] uppercase self-start px-2.5 py-1 rounded-[4px] border ${theme.badge}">CONTROLE DE FALTAS</span>
+            </div>
+            
+            <div class="flex-1 w-full flex items-center">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
+                    <div class="flex flex-col gap-2">
+                        <label class="text-[11px] font-bold uppercase tracking-wider opacity-70">Créditos (Aulas)</label>
+                        <input type="number" data-subject-id="${subject.id}" data-type="credits" value="${absData.credits}" class="w-full h-11 px-3 text-[15px] font-mono font-medium rounded-md outline-none shadow-sm spring-transition border ${theme.inputBg}">
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="text-[11px] font-bold uppercase tracking-wider opacity-70">Limite (%)</label>
+                        <div class="relative">
+                            <input type="number" data-subject-id="${subject.id}" data-type="absenceLimit" value="${absData.limitPct}" class="w-full h-11 px-3 text-[15px] font-mono font-medium rounded-md outline-none shadow-sm spring-transition border ${theme.inputBg} pr-8">
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 font-mono font-bold opacity-50">%</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2 justify-center pl-0 md:pl-2 border-l border-transparent md:${theme.borderSplit}">
+                        <span class="text-[11px] font-bold uppercase tracking-wider opacity-70">Limite Faltas</span>
+                        <span id="max-absences-${subject.id}" class="text-2xl font-mono font-bold leading-none py-1">${absData.maxFaltas}</span>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="text-[11px] font-bold uppercase tracking-wider opacity-90 text-red-500/80">Faltas Atuais</label>
+                        <input type="number" data-subject-id="${subject.id}" data-type="absences" value="${absData.absences}" class="w-full h-11 px-3 text-[16px] font-mono font-bold rounded-md outline-none shadow-sm spring-transition border ${theme.inputBg}">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex flex-row lg:flex-col items-center justify-between lg:justify-center w-full lg:w-40 border-t lg:border-t-0 lg:border-l pt-6 lg:pt-0 lg:pl-8 shrink-0 relative ${theme.borderSplit}">
+                <button type="button" data-action="delete" data-subject-id="${subject.id}" class="hidden lg:flex items-center justify-center absolute top-0 right-0 text-current opacity-0 group-hover:opacity-60 hover:!opacity-100 spring-transition p-2 -mt-4 -mr-4 rounded-full" title="Remover Disciplina" aria-label="Remover">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                </button>
+                <div class="flex flex-col items-start lg:items-end w-full">
+                    <span class="text-[11px] font-bold uppercase tracking-wider mb-1 opacity-70">Ainda pode faltar</span>
+                    <span id="rem-absences-${subject.id}" class="text-[48px] font-mono font-semibold tracking-tighter leading-none">${absData.remaining}</span>
+                </div>
+                <div id="status-absences-${subject.id}" class="px-3 py-1.5 rounded-[4px] text-[11px] font-bold tracking-[0.05em] uppercase mt-0 lg:mt-4 text-center min-w-[80px] shadow-sm spring-transition border ${status.classes}">
+                    ${status.label}
+                </div>
+            </div>
+          </article>
+        </li>
+      `;
+    }
+
+    function getActiveSemester() {
+      return state.semesters.find(s => s.id === state.activeSemesterId);
+    }
+
+    // CONTROLADOR DE UI GLOBAL
     function updateUI() {
-      // 1. Render Tabs
+      
+      const activeSem = getActiveSemester();
+
+      // 1. Mostrar / Esconder Nav de Semestres (Apenas visível nas ferramentas)
+      if (state.activeView === 'home') {
+          dom.semesterNav.classList.add('hidden');
+      } else {
+          dom.semesterNav.classList.remove('hidden');
+      }
+
+      // 2. Renderizar Tabs de Semestres (Apenas Visual)
       dom.semestersList.innerHTML = '';
       state.semesters.forEach(sem => {
         const clone = templates.tab.content.cloneNode(true);
         const btn = clone.querySelector('.semester-tab-btn');
-        const isSelected = sem.id === state.activeSemesterId;
+        const isSelected = (state.activeView !== 'home') && (sem.id === state.activeSemesterId);
         
         btn.setAttribute('aria-selected', isSelected);
         clone.querySelector('.tab-name').textContent = sem.name;
         
         if (isSelected) {
           btn.classList.add('bg-white', 'text-ink', 'shadow-sm', 'border-hairline');
-          btn.classList.remove('text-ink/60', 'hover:bg-canvas');
+          btn.classList.remove('text-ink/60', 'hover:bg-surface-strong');
         } else {
-          btn.classList.add('text-ink/60', 'hover:bg-canvas');
+          btn.classList.add('text-ink/60', 'hover:bg-surface-strong');
           btn.classList.remove('bg-white', 'text-ink', 'shadow-sm', 'border-hairline');
         }
 
-        btn.addEventListener('click', () => { state.activeSemesterId = sem.id; updateUI(); });
+        btn.addEventListener('click', () => { 
+          state.activeSemesterId = sem.id; 
+          // Se clica num semestre e está na home, por defeito vai pra calc
+          if (state.activeView === 'home') state.activeView = 'calc';
+          updateUI(); 
+        });
         dom.semestersList.appendChild(clone);
       });
 
-      // 2. Verifica Estado Ativo
-      const activeSem = getActiveSemester();
+      // 3. Atualizar Estado Ativo da Barra Lateral (Sidebar)
+      const inactiveClass = "flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-semibold spring-transition whitespace-nowrap text-ink/60 hover:bg-surface-strong border border-transparent";
+      const activeClass = "flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-semibold spring-transition whitespace-nowrap bg-white shadow-sm border border-hairline text-ink";
+      
+      if (state.activeView === 'calc') {
+          dom.btnSidebarCalc.className = activeClass;
+          dom.btnSidebarAbsences.className = inactiveClass;
+      } else if (state.activeView === 'absences') {
+          dom.btnSidebarAbsences.className = activeClass;
+          dom.btnSidebarCalc.className = inactiveClass;
+      }
 
+      // 4. Estado Global Vazio (Failsafe)
       if (!activeSem) {
-        dom.currentSemesterTitle.textContent = "Nenhum Semestre";
-        dom.btnDeleteSemester.classList.add('hidden'); dom.btnDeleteSemester.classList.remove('flex');
-        dom.sortControl.classList.add('hidden'); dom.sortControl.classList.remove('flex');
-        dom.btnOpenSubjectModal.style.display = 'none';
-        
         dom.globalEmptyState.classList.remove('hidden'); dom.globalEmptyState.classList.add('flex');
-        dom.emptyState.classList.add('hidden'); dom.emptyState.classList.remove('flex');
-        dom.grid.classList.add('hidden');
+        
+        dom.viewHome.classList.add('hidden'); dom.viewHome.classList.remove('flex');
+        dom.appContainer.classList.add('hidden'); dom.appContainer.classList.remove('flex');
+        dom.viewCalc.classList.add('hidden'); dom.viewCalc.classList.remove('flex');
+        dom.viewAbsences.classList.add('hidden'); dom.viewAbsences.classList.remove('flex');
+        dom.btnOpenSubjectModal.classList.add('hidden'); dom.btnOpenSubjectModal.classList.remove('flex');
         return;
       }
 
-      dom.currentSemesterTitle.textContent = activeSem.name;
-      dom.btnDeleteSemester.classList.remove('hidden'); dom.btnDeleteSemester.classList.add('flex');
-      dom.btnOpenSubjectModal.style.display = 'flex';
       dom.globalEmptyState.classList.add('hidden'); dom.globalEmptyState.classList.remove('flex');
-
-      if (activeSem.subjects.length === 0) {
-        dom.sortControl.classList.add('hidden'); dom.sortControl.classList.remove('flex');
-        dom.emptyState.classList.remove('hidden'); dom.emptyState.classList.add('flex');
-        dom.grid.classList.add('hidden');
-        return;
+      
+      // Mostrar Botão Nova Disciplina apenas nas ferramentas
+      if (state.activeView === 'home') {
+          dom.btnOpenSubjectModal.classList.add('hidden'); dom.btnOpenSubjectModal.classList.remove('flex');
+      } else {
+          dom.btnOpenSubjectModal.classList.remove('hidden'); dom.btnOpenSubjectModal.classList.add('flex');
       }
+      
+      // 5. Roteamento de Vistas Base
+      dom.viewHome.classList.add('hidden'); dom.viewHome.classList.remove('flex');
+      dom.appContainer.classList.add('hidden'); dom.appContainer.classList.remove('flex');
+      dom.viewCalc.classList.add('hidden'); dom.viewCalc.classList.remove('flex');
+      dom.viewAbsences.classList.add('hidden'); dom.viewAbsences.classList.remove('flex');
 
-      dom.sortControl.classList.remove('hidden'); dom.sortControl.classList.add('flex');
-      dom.emptyState.classList.add('hidden'); dom.emptyState.classList.remove('flex');
-      dom.grid.classList.remove('hidden');
+      if (state.activeView === 'home') {
+        dom.viewHome.classList.remove('hidden'); dom.viewHome.classList.add('flex');
+      } 
+      else {
+        // App Layout (Sidebar + Tool Content)
+        dom.appContainer.classList.remove('hidden'); dom.appContainer.classList.add('flex');
 
-      // 3. Aplica Ordenação
-      const sortedSubjects = [...activeSem.subjects].sort((a, b) => {
-        if (state.sortMode === 'name-asc') return a.name.localeCompare(b.name);
-        else if (state.sortMode === 'grade-desc') return Calculator.compute(b) - Calculator.compute(a);
-        else if (state.sortMode === 'grade-asc') return Calculator.compute(a) - Calculator.compute(b);
-        return 0;
-      });
+        if (state.activeView === 'calc') {
+          dom.viewCalc.classList.remove('hidden'); dom.viewCalc.classList.add('flex');
 
-      // 4. Injeta HTML Consolidado (Evita múltiplos reflows)
-      dom.grid.innerHTML = sortedSubjects.map((sub, index) => renderSubjectRow(sub, index)).join('');
+          if (activeSem.subjects.length === 0) {
+            dom.sortControlCalc.classList.add('hidden'); dom.sortControlCalc.classList.remove('flex');
+            dom.emptyStateCalc.classList.remove('hidden'); dom.emptyStateCalc.classList.add('flex');
+            dom.gridCalc.classList.add('hidden');
+          } else {
+            dom.sortControlCalc.classList.remove('hidden'); dom.sortControlCalc.classList.add('flex');
+            dom.emptyStateCalc.classList.add('hidden'); dom.emptyStateCalc.classList.remove('flex');
+            dom.gridCalc.classList.remove('hidden');
+
+            const sortedSubjects = [...activeSem.subjects].sort((a, b) => {
+              if (state.sortMode === 'name-asc') return a.name.localeCompare(b.name);
+              else if (state.sortMode === 'grade-desc') return Calculator.compute(b) - Calculator.compute(a);
+              else if (state.sortMode === 'grade-asc') return Calculator.compute(a) - Calculator.compute(b);
+              return 0;
+            });
+
+            dom.gridCalc.innerHTML = sortedSubjects.map((sub, index) => renderSubjectRowCalc(sub, index)).join('');
+          }
+        }
+        else if (state.activeView === 'absences') {
+          dom.viewAbsences.classList.remove('hidden'); dom.viewAbsences.classList.add('flex');
+
+          if (activeSem.subjects.length === 0) {
+            dom.emptyStateAbsences.classList.remove('hidden'); dom.emptyStateAbsences.classList.add('flex');
+            dom.gridAbsences.classList.add('hidden');
+          } else {
+            dom.emptyStateAbsences.classList.add('hidden'); dom.emptyStateAbsences.classList.remove('flex');
+            dom.gridAbsences.classList.remove('hidden');
+            
+            const sortedSubjects = [...activeSem.subjects].sort((a, b) => a.name.localeCompare(b.name));
+            dom.gridAbsences.innerHTML = sortedSubjects.map((sub, index) => renderSubjectRowAbsences(sub, index)).join('');
+          }
+        }
+      }
     }
 
-    // 6. DELEGAÇÃO DE EVENTOS (Event Delegation no GRID)
-    // Ouve todas as mudanças de inputs e cliques de remoção de uma vez só!
-    dom.grid.addEventListener('input', (e) => {
+    // 6. DELEGAÇÃO DE EVENTOS
+
+    // A. Eventos para Calculadora de Notas
+    dom.gridCalc.addEventListener('input', (e) => {
       if (e.target.tagName !== 'INPUT') return;
       
       const subjectId = e.target.getAttribute('data-subject-id');
       const index = e.target.getAttribute('data-index');
-      const type = e.target.getAttribute('data-type'); // 'grade' ou 'weight'
+      const type = e.target.getAttribute('data-type');
       const val = parseFloat(e.target.value);
       
       const activeSem = getActiveSemester();
@@ -703,26 +891,17 @@
       const subject = activeSem.subjects[subjectIndex];
       const assessment = subject.assessments[index];
 
-      // Atualiza o State
-      if (type === 'grade') {
-         assessment.grade = isNaN(val) ? null : val;
-      } else if (type === 'weight') {
-         assessment.weight = isNaN(val) ? null : val;
-      }
+      if (type === 'grade') assessment.grade = isNaN(val) ? null : val;
+      else if (type === 'weight') assessment.weight = isNaN(val) ? null : val;
 
-      // Atualizações de UI cirúrgicas (Não re-renderiza a lista toda)
-      
-      // 1. Atualiza a mini-nota no cartão da prova
       const itemResEl = document.getElementById(`res-${subjectId}-${index}`);
       if (itemResEl) {
         itemResEl.textContent = Calculator.calculateItemValue(assessment, subject.calcType).toFixed(2);
       }
 
-      // 2. Atualiza os totais da Matéria
       const avg = Calculator.compute(subject);
       const isFullyGraded = subject.assessments.every(a => a.grade !== null && a.grade !== undefined && a.grade !== "");
       
-      // Recuperar qual o tema desta materia pra aplicar a cor certa no label
       const themeIndex = activeSem.subjects.sort((a,b) => {
           if (state.sortMode === 'name-asc') return a.name.localeCompare(b.name);
           else if (state.sortMode === 'grade-desc') return Calculator.compute(b) - Calculator.compute(a);
@@ -731,7 +910,6 @@
       }).findIndex(s => s.id === subjectId);
 
       const isDarkTheme = THEMES[themeIndex % THEMES.length].bg === 'bg-brand-teal' || THEMES[themeIndex % THEMES.length].bg === 'bg-brand-pink';
-
       const status = Calculator.getStatus(avg, isFullyGraded, isDarkTheme);
 
       const avgEl = document.getElementById(`avg-${subjectId}`);
@@ -744,50 +922,57 @@
       }
     });
 
-    // Delegando os botões de "Deletar"
-    dom.grid.addEventListener('click', (e) => {
+    // B. Eventos para Gestão de Faltas
+    dom.gridAbsences.addEventListener('input', (e) => {
+      if (e.target.tagName !== 'INPUT') return;
+      
+      const subjectId = e.target.getAttribute('data-subject-id');
+      const type = e.target.getAttribute('data-type'); 
+      const val = parseFloat(e.target.value);
+      
+      const activeSem = getActiveSemester();
+      if (!activeSem) return;
+      
+      const subject = activeSem.subjects.find(s => s.id === subjectId);
+      if (!subject) return;
+
+      if (type === 'credits') subject.credits = isNaN(val) ? 0 : val;
+      else if (type === 'absenceLimit') subject.absenceLimit = isNaN(val) ? 0 : val;
+      else if (type === 'absences') subject.absences = isNaN(val) ? 0 : val;
+
+      const absData = AbsenceController.compute(subject);
+      
+      const sortedSubjects = [...activeSem.subjects].sort((a, b) => a.name.localeCompare(b.name));
+      const themeIndex = sortedSubjects.findIndex(s => s.id === subjectId);
+      const isDarkTheme = THEMES[themeIndex % THEMES.length].bg === 'bg-brand-teal' || THEMES[themeIndex % THEMES.length].bg === 'bg-brand-pink';
+      
+      const status = AbsenceController.getStatus(absData.isFailed, isDarkTheme);
+
+      const maxEl = document.getElementById(`max-absences-${subjectId}`);
+      if (maxEl) maxEl.textContent = absData.maxFaltas;
+
+      const remEl = document.getElementById(`rem-absences-${subjectId}`);
+      if (remEl) remEl.textContent = absData.remaining;
+
+      const statusEl = document.getElementById(`status-absences-${subjectId}`);
+      if (statusEl) {
+         statusEl.textContent = status.label;
+         statusEl.className = `px-3 py-1.5 rounded-[4px] text-[11px] font-bold tracking-[0.05em] uppercase mt-0 lg:mt-4 text-center min-w-[80px] shadow-sm spring-transition border ${status.classes}`;
+      }
+    });
+
+    // C. Delegação Global para Deletar Matéria
+    document.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-action="delete"]');
       if (!btn) return;
-      
       const subjectId = btn.getAttribute('data-subject-id');
       const activeSem = getActiveSemester();
       if (!activeSem) return;
-
       activeSem.subjects = activeSem.subjects.filter(s => s.id !== subjectId);
       updateUI();
     });
 
-    // 7. LÓGICA DOS MODAIS (Semestre e Nova Disciplina)
-    function openSemesterModal() {
-      dom.formSemester.reset();
-      dom.modalSemester.showModal();
-      document.getElementById('semester-name').focus();
-    }
-    
-    function closeSemesterModal() { dom.modalSemester.close(); }
-
-    function handleSemesterSubmit(e) {
-      e.preventDefault();
-      const name = document.getElementById('semester-name').value.trim();
-      if (name) {
-        const newSem = { id: crypto.randomUUID(), name: name, subjects: [] };
-        state.semesters.push(newSem);
-        state.activeSemesterId = newSem.id; 
-        closeSemesterModal();
-        updateUI();
-        setTimeout(() => { dom.semestersList.parentElement.scrollLeft = dom.semestersList.parentElement.scrollWidth; }, 50);
-      }
-    }
-
-    function handleDeleteSemester() {
-      if(confirm("Excluir semestre inteiro? Esta ação não pode ser desfeita.")) {
-        state.semesters = state.semesters.filter(s => s.id !== state.activeSemesterId);
-        state.activeSemesterId = state.semesters.length > 0 ? state.semesters[0].id : null;
-        updateUI();
-      }
-    }
-
-    // Modal Nova Disciplina
+    // 7. MODAIS
     function openSubjectModal() {
       dom.formSubject.reset();
       dom.assessmentsContainer.innerHTML = '';
@@ -872,16 +1057,20 @@
           name: nameInput, 
           calcType: calcType, 
           customFormula: calcType === 'custom' ? customFormula : null,
-          assessments: assessments 
+          assessments: assessments,
+          credits: 60,
+          absenceLimit: 30,
+          absences: 0
         });
+        
         closeSubjectModal();
-        updateUI(); // Chama updateUI ao invés de renderApp
+        if(state.activeView === 'home') state.activeView = 'calc'; 
+        updateUI();
       } else if (assessments.length === 0) {
         alert("Adicione linhas manualmente ou use o Gerador.");
       }
     }
 
-    // Toggle Dinâmico no formulário da Disciplina
     dom.selectCalcType.addEventListener('change', (e) => {
       const type = e.target.value;
       
@@ -911,12 +1100,12 @@
       else dom.lblFormulaFinal.textContent = "Campos (Apenas Nomes)";
     });
 
-    dom.selectSort.addEventListener('change', (e) => {
+    dom.selectSortCalc.addEventListener('change', (e) => {
       state.sortMode = e.target.value;
-      updateUI(); // Refatorado
+      updateUI(); 
     });
 
-    // 8. SETUP LISTENERS
+    // 8. EVENT LISTENERS GERAIS
     dom.btnOpenSubjectModal.addEventListener('click', openSubjectModal);
     dom.btnCloseSubject.addEventListener('click', closeSubjectModal);
     dom.btnCancelSubject.addEventListener('click', closeSubjectModal);
@@ -924,15 +1113,8 @@
     dom.btnGenerateRows.addEventListener('click', generateStructure);
     dom.formSubject.addEventListener('submit', handleSubjectSubmit);
 
-    dom.btnOpenSemesterModal.addEventListener('click', openSemesterModal);
-    dom.btnEmptyAddSemester.addEventListener('click', openSemesterModal);
-    dom.btnCloseSemester.addEventListener('click', closeSemesterModal);
-    dom.btnCancelSemester.addEventListener('click', closeSemesterModal);
-    dom.formSemester.addEventListener('submit', handleSemesterSubmit);
-    dom.btnDeleteSemester.addEventListener('click', handleDeleteSemester);
-
     // Fechar modais clicando fora
-    [dom.modalSubject, dom.modalSemester].forEach(modal => {
+    [dom.modalSubject].forEach(modal => {
       modal.addEventListener('click', (e) => {
         const d = modal.getBoundingClientRect();
         if (e.clientX < d.left || e.clientX > d.right || e.clientY < d.top || e.clientY > d.bottom) {
@@ -941,7 +1123,7 @@
       });
     });
 
-    // 9. START
+    // START
     updateUI();
 
   </script>
