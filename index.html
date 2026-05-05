@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Academic.OS | Gestão de Notas</title>
   
   <!-- Tailwind CSS -->
@@ -66,9 +66,10 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-teal-600"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
         <h1 class="text-lg font-semibold tracking-tight text-slate-900">Academic.OS</h1>
       </div>
-      <button type="button" id="btn-open-subject-modal" class="spring-transition bg-teal-600 hover:brightness-110 active:translate-y-[1px] text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm flex items-center gap-2">
+      <button type="button" id="btn-open-subject-modal" class="spring-transition bg-teal-600 hover:brightness-110 active:translate-y-[1px] text-white px-3 sm:px-4 py-2 rounded-lg text-sm font-medium shadow-sm flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-        Nova Disciplina
+        <span class="hidden sm:inline">Nova Disciplina</span>
+        <span class="sm:hidden">Nova</span>
       </button>
     </div>
     
@@ -88,52 +89,53 @@
   </header>
 
   <!-- Main Content -->
-  <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+  <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12">
     
     <!-- Cabeçalho do Semestre Ativo -->
-    <header class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+    <header class="mb-6 md:mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
       <div>
-        <h2 id="current-semester-title" class="text-3xl font-semibold tracking-tight text-slate-900">Carregando...</h2>
-        <p class="text-slate-500 mt-2 max-w-[60ch] leading-relaxed text-sm">Acompanhamento de desempenho acadêmico. Adicione as notas nas linhas abaixo ao longo do semestre.</p>
+        <h2 id="current-semester-title" class="text-2xl md:text-3xl font-semibold tracking-tight text-slate-900">Carregando...</h2>
+        <p class="text-slate-500 mt-1 md:mt-2 max-w-[60ch] leading-relaxed text-sm">Acompanhamento de desempenho acadêmico. Adicione as notas nas linhas abaixo ao longo do semestre.</p>
       </div>
       
-      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+      <div class="flex flex-row items-center gap-3 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
         <!-- Controle de Ordenação -->
-        <div id="sort-control" class="hidden flex-row items-center gap-2 bg-white border border-slate-200 rounded-lg px-3 py-2 shadow-sm spring-transition hover:border-slate-300">
+        <div id="sort-control" class="hidden flex-row items-center gap-2 bg-white border border-slate-200 rounded-lg px-3 py-2 shadow-sm spring-transition hover:border-slate-300 shrink-0">
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg>
-          <select id="select-sort" class="text-sm font-medium text-slate-700 bg-transparent focus:outline-none cursor-pointer pr-4">
+          <select id="select-sort" class="text-sm font-medium text-slate-700 bg-transparent focus:outline-none cursor-pointer pr-2">
             <option value="name-asc">Ordem Alfabética</option>
-            <option value="grade-desc">Maior Nota (Decrescente)</option>
-            <option value="grade-asc">Menor Nota (Crescente)</option>
+            <option value="grade-desc">Maior Nota</option>
+            <option value="grade-asc">Menor Nota</option>
           </select>
         </div>
 
-        <button type="button" id="btn-delete-semester" class="hidden items-center gap-1.5 px-3 py-2 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg spring-transition">
+        <button type="button" id="btn-delete-semester" class="hidden items-center gap-1.5 px-3 py-2 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg spring-transition shrink-0">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-          Excluir Semestre
+          <span class="hidden sm:inline">Excluir Semestre</span>
+          <span class="sm:hidden">Excluir</span>
         </button>
       </div>
     </header>
 
     <!-- State: Sem Semestres -->
-    <section id="global-empty-state" class="hidden flex-col items-center justify-center py-20 border border-dashed border-slate-300 rounded-2xl bg-slate-50/50">
+    <section id="global-empty-state" class="hidden flex-col items-center justify-center py-16 md:py-20 border border-dashed border-slate-300 rounded-2xl bg-slate-50/50">
       <div class="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center mb-4 text-slate-400">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
       </div>
-      <h3 class="text-lg font-medium text-slate-900">Nenhum semestre cadastrado</h3>
-      <p class="text-slate-500 mt-1 text-sm mb-4">Crie seu primeiro semestre para começar a adicionar notas.</p>
+      <h3 class="text-lg font-medium text-slate-900 text-center">Nenhum semestre cadastrado</h3>
+      <p class="text-slate-500 mt-1 text-sm mb-4 text-center px-4">Crie seu primeiro semestre para começar a adicionar notas.</p>
       <button type="button" id="btn-empty-add-semester" class="bg-teal-600 hover:brightness-110 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm spring-transition">
         Criar Semestre
       </button>
     </section>
 
     <!-- State: Empty Disciplinas -->
-    <section id="empty-state" class="hidden flex-col items-center justify-center py-20 border border-dashed border-slate-300 rounded-2xl bg-slate-50/50">
+    <section id="empty-state" class="hidden flex-col items-center justify-center py-16 md:py-20 border border-dashed border-slate-300 rounded-2xl bg-slate-50/50">
       <div class="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center mb-4 text-slate-400">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
       </div>
-      <h3 class="text-lg font-medium text-slate-900">Nenhuma disciplina cadastrada neste semestre</h3>
-      <p class="text-slate-500 mt-1 text-sm">Crie a fórmula da sua primeira disciplina para começar a calcular.</p>
+      <h3 class="text-lg font-medium text-slate-900 text-center">Nenhuma disciplina neste semestre</h3>
+      <p class="text-slate-500 mt-1 text-sm text-center px-4">Crie a fórmula da sua primeira disciplina para começar a calcular.</p>
     </section>
 
     <!-- State: Row List of Subjects -->
@@ -144,15 +146,15 @@
   </main>
 
   <!-- Modal: Adicionar Semestre -->
-  <dialog id="modal-semester" class="backdrop:bg-slate-900/40 backdrop:backdrop-blur-sm p-0 rounded-[1.5rem] shadow-2xl border border-slate-200 w-full max-w-sm m-auto overflow-hidden spring-transition opacity-0 translate-y-4 open:opacity-100 open:translate-y-0">
+  <dialog id="modal-semester" class="backdrop:bg-slate-900/40 backdrop:backdrop-blur-sm p-0 rounded-[1.5rem] shadow-2xl border border-slate-200 w-[calc(100%-2rem)] sm:w-full max-w-sm m-auto overflow-hidden spring-transition opacity-0 translate-y-4 open:opacity-100 open:translate-y-0">
     <div class="bg-white flex flex-col">
-      <header class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
+      <header class="px-5 py-4 sm:px-6 sm:py-5 border-b border-slate-100 flex items-center justify-between">
         <h3 class="text-lg font-semibold text-slate-900">Novo Semestre</h3>
         <button type="button" id="btn-close-semester-modal" class="text-slate-400 hover:text-slate-600 rounded-md p-1 spring-transition" aria-label="Fechar modal">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
       </header>
-      <div class="p-6">
+      <div class="p-5 sm:p-6">
         <form id="form-semester" class="space-y-4">
           <div class="space-y-2">
             <label for="semester-name" class="block text-sm font-medium text-slate-700">Nome do Semestre</label>
@@ -160,7 +162,7 @@
           </div>
         </form>
       </div>
-      <footer class="px-6 py-4 border-t border-slate-100 bg-slate-50 flex items-center justify-end gap-3">
+      <footer class="px-5 py-4 sm:px-6 border-t border-slate-100 bg-slate-50 flex items-center justify-end gap-3">
         <button type="button" id="btn-cancel-semester" class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 spring-transition rounded-lg">Cancelar</button>
         <button type="submit" form="form-semester" class="bg-teal-600 hover:brightness-110 active:translate-y-[1px] text-white px-5 py-2 rounded-lg text-sm font-medium shadow-sm spring-transition">
           Salvar
@@ -170,17 +172,17 @@
   </dialog>
 
   <!-- Modal: Adicionar Disciplina & Gerador de Fórmula -->
-  <dialog id="modal-subject" class="backdrop:bg-slate-900/40 backdrop:backdrop-blur-sm p-0 rounded-[1.5rem] shadow-2xl border border-slate-200 w-full max-w-xl m-auto overflow-hidden spring-transition opacity-0 translate-y-4 open:opacity-100 open:translate-y-0">
-    <div class="bg-white flex flex-col max-h-[85vh]">
-      <header class="px-6 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-        <h3 class="text-lg font-semibold text-slate-900">Montar Fórmula da Disciplina</h3>
+  <dialog id="modal-subject" class="backdrop:bg-slate-900/40 backdrop:backdrop-blur-sm p-0 rounded-[1.5rem] shadow-2xl border border-slate-200 w-[calc(100%-2rem)] sm:w-full max-w-xl m-auto overflow-hidden spring-transition opacity-0 translate-y-4 open:opacity-100 open:translate-y-0">
+    <div class="bg-white flex flex-col max-h-[85vh] sm:max-h-[90vh]">
+      <header class="px-5 py-4 sm:px-6 sm:py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+        <h3 class="text-lg font-semibold text-slate-900">Montar Fórmula</h3>
         <button type="button" id="btn-close-subject-modal" class="text-slate-400 hover:text-slate-600 rounded-md p-1 spring-transition" aria-label="Fechar modal">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
       </header>
 
-      <div class="p-6 overflow-y-auto flex-1 custom-scrollbar">
-        <form id="form-subject" class="space-y-8">
+      <div class="p-5 sm:p-6 overflow-y-auto flex-1 custom-scrollbar">
+        <form id="form-subject" class="space-y-6 sm:space-y-8">
           
           <!-- Seção 1: Nome -->
           <div class="space-y-2">
@@ -191,12 +193,12 @@
           <!-- Seção 1.5: Tipo de Cálculo -->
           <div class="space-y-2">
             <label for="subject-calc-type" class="block text-sm font-medium text-slate-700">Como o professor calcula a média?</label>
-            <select id="subject-calc-type" required class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-600/50 focus:border-teal-600 spring-transition text-slate-900 shadow-sm">
-              <option value="ponderada">Média Ponderada (Nota × Peso específico ou Soma Direta)</option>
-              <option value="media_categorias">Soma das Médias (Ex: Média de Provas + Média de Trabalhos)</option>
-              <option value="soma">Soma Simples (Apenas soma direta dos pontos)</option>
-              <option value="media">Média Aritmética Geral (Soma tudo ÷ Qtd total de avaliações)</option>
-              <option value="custom">Fórmula Personalizada (Crie sua própria equação matemática)</option>
+            <select id="subject-calc-type" required class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-600/50 focus:border-teal-600 spring-transition text-slate-900 shadow-sm text-sm sm:text-base">
+              <option value="ponderada">Média Ponderada (Nota × Peso específico)</option>
+              <option value="media_categorias">Soma das Médias (Média de Provas + Trabalhos)</option>
+              <option value="soma">Soma Simples (Apenas soma os pontos)</option>
+              <option value="media">Média Aritmética Geral (Soma tudo ÷ Qtd)</option>
+              <option value="custom">Fórmula Personalizada (Crie a sua equação)</option>
             </select>
           </div>
 
@@ -204,7 +206,7 @@
           <div id="custom-formula-section" class="hidden space-y-2 bg-slate-100 p-4 rounded-xl border border-slate-200">
             <label for="subject-custom-formula" class="block text-sm font-medium text-slate-800">Fórmula Matemática</label>
             <input type="text" id="subject-custom-formula" placeholder="Ex: (P1 + P2) / 2 + T1 * T1_P" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-600/50 focus:border-teal-600 spring-transition text-slate-900 shadow-sm font-mono text-sm">
-            <p class="text-xs text-slate-500 leading-relaxed">Escreva a conta usando os <strong>nomes exatos</strong> das avaliações. Para usar a nota, digite o nome (Ex: <code>P1</code>). Para usar o <strong>peso</strong> correspondente, adicione <strong>_P</strong> (Ex: <code>P1_P</code>). Aceita <code class="bg-white px-1 py-0.5 rounded border border-slate-200 shadow-sm">+ - * / ( )</code></p>
+            <p class="text-xs text-slate-500 leading-relaxed mt-2">Escreva a conta usando os <strong>nomes exatos</strong> das avaliações. Para usar a nota, digite o nome (Ex: <code>P1</code>). Para usar o <strong>peso</strong> correspondente, adicione <strong>_P</strong> (Ex: <code>P1_P</code>). Aceita <code class="bg-white px-1 py-0.5 rounded border border-slate-200 shadow-sm">+ - * / ( )</code></p>
           </div>
 
           <!-- Seção 2: Gerador -->
@@ -216,19 +218,19 @@
             
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <div>
-                <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Provas</label>
+                <label class="block text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Provas</label>
                 <input type="number" id="gen-provas" min="0" value="2" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-teal-600/50 shadow-sm text-center font-mono">
               </div>
               <div>
-                <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Trabalhos</label>
+                <label class="block text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Trabalhos</label>
                 <input type="number" id="gen-trabalhos" min="0" value="1" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-teal-600/50 shadow-sm text-center font-mono">
               </div>
               <div>
-                <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Seminários</label>
+                <label class="block text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Seminários</label>
                 <input type="number" id="gen-seminarios" min="0" value="0" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-teal-600/50 shadow-sm text-center font-mono">
               </div>
               <div>
-                <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Atividades</label>
+                <label class="block text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Atividades</label>
                 <input type="number" id="gen-atividades" min="0" value="0" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-teal-600/50 shadow-sm text-center font-mono">
               </div>
             </div>
@@ -243,15 +245,15 @@
               <label id="lbl-formula-final" class="block text-sm font-medium text-slate-700">Avaliações (Opcional: Defina os Pesos)</label>
             </div>
             
-            <div class="bg-white border border-slate-200 rounded-xl p-2">
-              <div id="assessments-container" class="space-y-2">
+            <div class="bg-white border border-slate-200 rounded-xl p-2 overflow-hidden">
+              <div id="assessments-container" class="space-y-2 max-h-[300px] overflow-y-auto custom-scrollbar p-1">
                 <!-- Linhas injetadas via JS -->
               </div>
               
               <div class="pt-3 pb-1 px-1 mt-2 border-t border-slate-100">
                 <button type="button" id="btn-add-assessment" class="text-sm text-teal-600 hover:text-teal-700 font-medium flex items-center gap-1.5 spring-transition">
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-                  Adicionar linha extra manualmente
+                  Adicionar linha manual
                 </button>
               </div>
             </div>
@@ -259,7 +261,7 @@
         </form>
       </div>
 
-      <footer class="px-6 py-4 border-t border-slate-100 bg-slate-50 flex items-center justify-end gap-3">
+      <footer class="px-5 py-4 sm:px-6 border-t border-slate-100 bg-slate-50 flex items-center justify-end gap-3">
         <button type="button" id="btn-cancel-subject" class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 spring-transition rounded-lg">Cancelar</button>
         <button type="submit" form="form-subject" class="bg-teal-600 hover:brightness-110 active:translate-y-[1px] text-white px-5 py-2 rounded-lg text-sm font-medium shadow-sm spring-transition">
           Salvar Estrutura
@@ -277,24 +279,24 @@
     </li>
   </template>
 
-  <!-- Novo Layout de Linha Única -->
+  <!-- Layout de Linha Única Responsivo -->
   <template id="tpl-subject-row">
     <li>
-      <article class="bg-white rounded-xl p-4 md:p-5 border border-slate-200 card-shadow flex flex-col md:flex-row gap-5 hover:border-slate-300 spring-transition group relative items-start md:items-stretch">
+      <article class="bg-white rounded-xl p-4 md:p-5 border border-slate-200 card-shadow flex flex-col md:flex-row gap-4 md:gap-5 hover:border-slate-300 spring-transition group relative items-start md:items-stretch overflow-hidden">
         
         <!-- Col 1: Title & Badge -->
         <div class="flex flex-col w-full md:w-56 shrink-0 relative justify-center">
             <!-- Botão de deletar Mobile -->
             <button type="button" class="md:hidden absolute top-0 right-0 btn-delete text-slate-300 hover:text-red-500 spring-transition p-1" aria-label="Remover">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
             </button>
             <h3 class="text-base font-semibold text-slate-900 leading-tight subject-title pr-8 md:pr-0 line-clamp-2"></h3>
             <span class="text-[9px] font-bold tracking-wider uppercase text-teal-700 mt-1.5 subject-type-badge bg-teal-50/80 self-start px-2 py-0.5 rounded border border-teal-100/50"></span>
         </div>
 
-        <!-- Col 2: Assessments (Scroll Horizontal) -->
-        <div class="flex-1 w-full overflow-x-auto custom-scrollbar pb-2 md:pb-0">
-            <ul class="subject-assessments flex flex-nowrap gap-3 w-max pr-4">
+        <!-- Col 2: Assessments (Scroll Horizontal Magnético) -->
+        <div class="flex-1 w-full overflow-x-auto custom-scrollbar pb-3 md:pb-0 -mx-4 px-4 md:mx-0 md:px-0 snap-x snap-mandatory">
+            <ul class="subject-assessments flex flex-nowrap gap-3 w-max pr-4 md:pr-0">
                 <!-- Assessment Items Injected Here -->
             </ul>
         </div>
@@ -318,29 +320,30 @@
     </li>
   </template>
 
-  <!-- Row para criação de estrutura no Modal -->
+  <!-- Row para criação de estrutura no Modal (Responsivo) -->
   <template id="tpl-assessment-row">
-    <div class="flex items-center gap-2 group/row bg-slate-50 p-1.5 rounded-lg border border-transparent hover:border-slate-200 spring-transition">
-      <input type="text" placeholder="Ex: Prova 1" required class="assessment-name flex-1 min-w-[100px] px-3 py-1.5 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-teal-600/50 shadow-sm">
+    <div class="flex items-center gap-2 group/row bg-slate-50 p-1.5 sm:p-2 rounded-lg border border-transparent hover:border-slate-200 spring-transition">
+      <input type="text" placeholder="Ex: Prova 1" required class="assessment-name flex-1 min-w-[80px] sm:min-w-[100px] px-2 sm:px-3 py-1.5 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-teal-600/50 shadow-sm">
       
-      <!-- Container do Peso (Opcional) -->
-      <div class="relative w-28 weight-wrapper">
-        <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-xs font-medium text-slate-400">Peso:</span>
-        <input type="number" step="0.001" placeholder="1.0" class="assessment-weight w-full pl-11 pr-3 py-1.5 bg-white border border-slate-200 rounded-md text-sm font-mono focus:outline-none focus:ring-2 focus:ring-teal-600/50 shadow-sm">
+      <!-- Container do Peso -->
+      <div class="relative w-20 sm:w-28 weight-wrapper shrink-0">
+        <span class="hidden sm:flex absolute inset-y-0 left-0 pl-2.5 items-center pointer-events-none text-xs font-medium text-slate-400">Peso:</span>
+        <span class="sm:hidden absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none text-xs font-medium text-slate-400">P:</span>
+        <input type="number" step="0.001" placeholder="1.0" class="assessment-weight w-full pl-6 sm:pl-11 pr-2 sm:pr-3 py-1.5 bg-white border border-slate-200 rounded-md text-sm font-mono focus:outline-none focus:ring-2 focus:ring-teal-600/50 shadow-sm">
       </div>
       
-      <!-- Container da Categoria (Soma das Médias) -->
-      <div class="relative w-28 category-wrapper hidden">
-        <select required class="assessment-category w-full px-2 py-1.5 bg-white border border-slate-200 rounded-md text-xs focus:outline-none focus:ring-2 focus:ring-teal-600/50 shadow-sm text-slate-700">
+      <!-- Container da Categoria -->
+      <div class="relative w-24 sm:w-28 category-wrapper hidden shrink-0">
+        <select required class="assessment-category w-full px-1 sm:px-2 py-1.5 bg-white border border-slate-200 rounded-md text-xs focus:outline-none focus:ring-2 focus:ring-teal-600/50 shadow-sm text-slate-700">
           <option value="prova">Prova</option>
-          <option value="trabalho">Trabalho</option>
-          <option value="seminario">Seminário</option>
-          <option value="atividade">Atividade</option>
-          <option value="extra">Nota Extra</option>
+          <option value="trabalho">Trab.</option>
+          <option value="seminario">Semin.</option>
+          <option value="atividade">Ativ.</option>
+          <option value="extra">Extra</option>
         </select>
       </div>
 
-      <button type="button" class="btn-remove-row text-slate-300 hover:text-red-500 p-1.5 spring-transition bg-white border border-slate-200 rounded-md shadow-sm" aria-label="Remover linha">
+      <button type="button" class="btn-remove-row text-slate-300 hover:text-red-500 p-1.5 spring-transition bg-white border border-slate-200 rounded-md shadow-sm shrink-0" aria-label="Remover linha">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       </button>
     </div>
@@ -354,7 +357,7 @@
     let state = {
       semesters: [...initialSemesters],
       activeSemesterId: null,
-      sortMode: 'name-asc' // Padrões: 'name-asc', 'grade-desc', 'grade-asc'
+      sortMode: 'name-asc'
     };
 
     // --- 2. DOM ELEMENTS ---
@@ -399,7 +402,7 @@
     };
 
     const templates = {
-      row: document.getElementById('tpl-subject-row'), // Atualizado
+      row: document.getElementById('tpl-subject-row'), 
       assessmentRow: document.getElementById('tpl-assessment-row'),
       tab: document.getElementById('tpl-semester-tab')
     };
@@ -535,7 +538,6 @@
       dom.emptyState.classList.add('hidden'); dom.emptyState.classList.remove('flex');
       dom.grid.classList.remove('hidden');
 
-      // Sorting Logic
       const sortedSubjects = [...activeSem.subjects].sort((a, b) => {
         if (state.sortMode === 'name-asc') {
           return a.name.localeCompare(b.name);
@@ -556,7 +558,7 @@
         article.style.animationDelay = `calc(${index} * 60ms)`;
         article.classList.add('animate-fade-in-up');
         clone.querySelector('.subject-title').textContent = subject.name;
-        clone.querySelector('.subject-title').title = subject.name; // Tooltip para nomes longos
+        clone.querySelector('.subject-title').title = subject.name; 
         
         const badgeMapping = { 
           'ponderada': 'MÉDIA PONDERADA', 
@@ -567,7 +569,6 @@
         };
         clone.querySelector('.subject-type-badge').textContent = badgeMapping[subject.calcType] || badgeMapping['ponderada'];
 
-        // Ligar botões de delete (Desktop e Mobile)
         clone.querySelectorAll('.btn-delete').forEach(btn => {
             btn.addEventListener('click', () => {
               activeSem.subjects = activeSem.subjects.filter(s => s.id !== subject.id);
@@ -592,12 +593,11 @@
         
         subject.assessments.forEach(ass => {
           const li = document.createElement('li');
-          // Mini-Card visual approach for each assessment within the row
-          li.className = "flex flex-col gap-2 bg-slate-50/70 border border-slate-200/60 p-3 rounded-xl min-w-[150px] flex-shrink-0 spring-transition hover:bg-white hover:border-slate-300 hover:shadow-sm";
+          // Adicionado snap-start para scrolling responsivo e agradável no mobile
+          li.className = "snap-start flex flex-col gap-2 bg-slate-50/70 border border-slate-200/60 p-3 rounded-xl min-w-[140px] md:min-w-[150px] flex-shrink-0 spring-transition hover:bg-white hover:border-slate-300 hover:shadow-sm";
           
-          // Top Row: Name + Result
           const topRow = document.createElement('div');
-          topRow.className = "flex justify-between items-start gap-3 w-full";
+          topRow.className = "flex justify-between items-start gap-2 w-full";
           
           const nameSpan = document.createElement('span');
           nameSpan.className = "text-slate-800 text-xs font-semibold leading-tight truncate w-full";
@@ -610,7 +610,6 @@
           topRow.appendChild(nameSpan);
           topRow.appendChild(ponderadaSpan);
 
-          // Bot Row: Input + Math Context
           const botRow = document.createElement('div');
           botRow.className = "flex items-center justify-between gap-2 w-full mt-auto pt-1";
 
@@ -620,13 +619,12 @@
           gradeInput.min = "0";
           gradeInput.max = "10";
           gradeInput.placeholder = "--";
-          gradeInput.className = "w-14 px-1.5 py-1 text-xs font-mono text-center bg-white border border-slate-200 rounded focus:ring-2 focus:ring-teal-600/50 outline-none shadow-sm spring-transition";
+          gradeInput.className = "w-12 sm:w-14 px-1.5 py-1 text-xs font-mono text-center bg-white border border-slate-200 rounded focus:ring-2 focus:ring-teal-600/50 outline-none shadow-sm spring-transition";
           gradeInput.value = ass.grade !== null && ass.grade !== undefined ? ass.grade : "";
 
           const mathSpan = document.createElement('span');
           mathSpan.className = "text-slate-400 font-mono text-[9px] uppercase tracking-wider flex items-center justify-end w-full";
           
-          // Math Context Logic
           if (subject.calcType === 'soma') {
             mathSpan.innerHTML = `SOMA`;
           } else if (subject.calcType === 'media') {
@@ -640,7 +638,7 @@
             weightInput.type = "number";
             weightInput.step = "0.01";
             weightInput.placeholder = "1";
-            weightInput.className = "w-10 ml-1 px-1 py-0.5 text-[10px] font-mono text-center bg-white border border-slate-200 rounded focus:ring-1 focus:ring-teal-600/50 outline-none transition-colors";
+            weightInput.className = "w-8 sm:w-10 ml-1 px-1 py-0.5 text-[10px] font-mono text-center bg-white border border-slate-200 rounded focus:ring-1 focus:ring-teal-600/50 outline-none transition-colors";
             weightInput.value = (ass.weight !== null && ass.weight !== undefined) ? ass.weight : "";
 
             weightInput.addEventListener('input', (e) => {
@@ -659,7 +657,6 @@
           li.appendChild(topRow);
           li.appendChild(botRow);
 
-          // Row Specific Updates
           const updateRowPonderada = () => {
              const val = parseFloat(gradeInput.value);
              const grade = isNaN(val) ? 0 : val;
@@ -823,7 +820,6 @@
       else dom.lblFormulaFinal.textContent = "Avaliações (Apenas Nomes)";
     });
 
-    // Evento de Ordenação
     dom.selectSort.addEventListener('change', (e) => {
       state.sortMode = e.target.value;
       renderApp();
